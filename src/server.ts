@@ -2,11 +2,12 @@ import * as express from 'express';
 import * as swaggerUi from 'swagger-ui-express';
 import * as courseRouter from './routes/course';
 import * as userRouter from './routes/user';
+require('./db/mongoose');
 
 const server = express();
 const swaggerDoc = require('../swagger.json');
-const ENDPOINT = process.env.ENDPOINT || 'http://localhost';
-const PORT = process.env.PORT || 3000;
+const ENDPOINT = process.env.ENDPOINT_SERVER;
+const PORT = process.env.PORT;
 
 server.use('/user', userRouter);
 server.use('/course', courseRouter);

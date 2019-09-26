@@ -6,12 +6,13 @@
     "scripts": {
         "build": "tsc",
         "lint": "tslint -c ./tslint.json ./src/**/*.ts",
-        "start": "node --inspect=5858 -r ts-node/register ./src/server.ts",
-        "start:watch": "nodemon",
+        "start": "env-cmd -f ./config/dev.env node --inspect=5858 -r ts-node/register ./src/server.ts",
+        "start:dev": "env-cmd -f ./config/dev.env nodemon",
         "test": "jest --watch"
     },
     "devDependencies": {
         "@types/node": "^12.7.4",
+        "env-cmd": "^10.0.1",
         "jest": "^24.9.0",
         "nodemon": "^1.19.2",
         "prettier": "^1.18.2",
