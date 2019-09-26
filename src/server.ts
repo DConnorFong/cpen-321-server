@@ -9,6 +9,7 @@ const swaggerDoc = require('../swagger.json');
 const ENDPOINT = process.env.ENDPOINT_SERVER;
 const PORT = process.env.PORT;
 
+server.use(express.json());
 server.use('/user', userRouter);
 server.use('/course', courseRouter);
 

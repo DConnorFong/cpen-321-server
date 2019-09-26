@@ -52,6 +52,31 @@
                     }
                 ]
             }
+        },
+        "/user": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "Create a User by providing a first name and last name",
+                "description": "",
+                "operationId": "",
+                "produces": [],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "firstName",
+                        "description": "The user's first name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "lastName",
+                        "description": "The user's last name",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
         }
     }
 }
