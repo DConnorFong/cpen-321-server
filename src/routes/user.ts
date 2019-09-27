@@ -1,4 +1,5 @@
 import * as express from 'express';
+import { generateName } from '../utils/generate-name';
 const User = require('../models/user');
 
 const router = express.Router();
@@ -28,7 +29,10 @@ router.get('/:id', async (req, res) => {
  * POST /user
  */
 router.post('/', async (req, res) => {
-    const user = new User(req.body);
+    const user = new User({
+        ...req.body,
+        aliasName: generateName(),
+    });
 
     try {
         await user.save();

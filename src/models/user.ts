@@ -12,6 +12,11 @@ const userSchema = new mongoose.Schema(
             trim: true,
             required: true,
         },
+        aliasName: {
+            type: String,
+            trim: true,
+            default: 'Defaulting Defaulter',
+        },
         courses: [
             {
                 type: mongoose.Schema.Types.ObjectId,
