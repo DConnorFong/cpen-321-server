@@ -1,0 +1,22 @@
+{
+    "extends": [
+        "tslint:recommended",
+        "tslint-react",
+        "tslint-plugin-prettier",
+        "tslint-config-prettier"
+    ],
+    "rules": {
+        "no-console": {
+            "severity": "warning"
+        },
+        "semicolon": true,
+        "prettier": true,
+        "quotemark": [
+            true,
+            "single",
+            "avoid-escape",
+            "avoid-template",
+            "jsx-double"
+        ]
+    }
+}
