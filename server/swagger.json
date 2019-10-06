@@ -15,15 +15,11 @@
             "description": "Endpoints related to viewing and manipulating User data"
         }
     ],
-    "schemes": [
-        "http"
-    ],
+    "schemes": ["http"],
     "paths": {
         "/course/{courseId}": {
             "get": {
-                "tags": [
-                    "Courses"
-                ],
+                "tags": ["Courses"],
                 "summary": "Get a Course object by ID",
                 "description": "",
                 "operationId": "",
@@ -41,9 +37,7 @@
         },
         "/course": {
             "post": {
-                "tags": [
-                    "Courses"
-                ],
+                "tags": ["Courses"],
                 "summary": "Create a Course by providing a course code and course section",
                 "description": "",
                 "operationId": "",
@@ -68,9 +62,7 @@
         },
         "/user/{userId}": {
             "get": {
-                "tags": [
-                    "Users"
-                ],
+                "tags": ["Users"],
                 "summary": "Get a User object by ID",
                 "description": "",
                 "operationId": "",
@@ -86,11 +78,18 @@
                 ]
             }
         },
+        "/user/{userId}/": {
+            "patch": {
+                "tags": ["Users"],
+                "summary": "Update a User object by ID",
+                "description": "",
+                "operationId": "",
+                "produces": []
+            }
+        },
         "/user": {
             "post": {
-                "tags": [
-                    "Users"
-                ],
+                "tags": ["Users"],
                 "summary": "Create a User by providing a first name and last name",
                 "description": "",
                 "operationId": "",

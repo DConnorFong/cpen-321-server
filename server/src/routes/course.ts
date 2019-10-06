@@ -3,7 +3,7 @@ const Course = require('../models/course');
 
 const router = express.Router();
 
-/* 
+/*
  * Read a course from the database using its Object ID
  *
  * GET /course/:id
