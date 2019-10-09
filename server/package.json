@@ -8,6 +8,7 @@
         "lint": "tslint -c ./tslint.json ./src/**/*.ts",
         "start": "env-cmd -f ./config/dev.env node --inspect=5858 -r ts-node/register ./src/server.ts",
         "start:dev": "env-cmd -f ./config/dev.env nodemon",
+        "start:prod": "npm run build && env-cmd -f ./config/dev.env node ./dist/server.js",
         "test": "jest --watch"
     },
     "devDependencies": {

@@ -74,3 +74,6 @@ typings/
 
 # config files
 server/config/*.env
+
+# server generated output 
+server/dist/*
