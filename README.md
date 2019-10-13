@@ -25,6 +25,6 @@
 1. Download the Expo client: https://apps.apple.com/app/apple-store/id982107779
 2. Clone the repository to your computer
 3. Run `npm install` within the mobile directory
-4. Run `expo init` - you should be able to see a QR code at this point
+4. Run `npm run start` - you should be able to see a QR code at this point
 5. Scan the QR code using your iOS camera
 6. Observe the application opening and running on your device
