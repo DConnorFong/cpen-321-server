@@ -6,6 +6,7 @@ import * as mongoose from 'mongoose';
  * lastName - e.g. Fong
  * courses:
  *  e.g. ['CPEN331', 'CPEN321', 'CPEN311']
+ * pushNotificationToken - Expo API token used to send push notifications to device
  */
 const userSchema = new mongoose.Schema(
     {
@@ -23,6 +24,10 @@ const userSchema = new mongoose.Schema(
             type: String,
             trim: true,
             default: 'Defaulting Defaulter',
+        },
+        pushNotificationToken: {
+            type: String,
+            trim: true,
         },
         courses: [
             {

@@ -24,6 +24,37 @@ router.get('/:id', async (req, res) => {
 });
 
 /*
+ * Create or overwrite a push notification entry for a user
+ *
+ * POST /user/:id/push_notification
+ */
+router.post('/:id/push_notification', async (req, res) => {
+    const token = req.body.token.value;
+
+    if (!token) {
+        return res.status(400).send({
+            error: 'Invalid push notification token update requested',
+        });
+    }
+
+    try {
+        const user = await User.findOne({ _id: req.params.id });
+
+        if (!user) {
+            res.status(404).send();
+        }
+
+        user.pushNotificationToken = token;
+
+        await user.save();
+
+        res.send();
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+/*
  * Create a user
  *
  * POST /user
@@ -74,7 +105,7 @@ router.patch('/:id', async (req, res) => {
 
         res.send(user);
     } catch (error) {
-        res.status(400).send(error);
+        res.status(500).send(error);
     }
 });
 
