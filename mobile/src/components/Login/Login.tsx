@@ -3,7 +3,15 @@ import { StyleSheet, Text, View, KeyboardAvoidingView } from 'react-native';
 import { SketchPicker } from 'react-color';
 import LoginForm from './LoginForm';
 
-export default class Login extends Component {
+interface LoginProps {
+    authenticateUserId: Function;
+}
+
+export default class Login extends Component<LoginProps, {}> {
+    constructor(props: LoginProps) {
+        super(props);
+    }
+
     render() {
         return (
             <KeyboardAvoidingView behavior="padding" style={styles.container}>
@@ -11,7 +19,7 @@ export default class Login extends Component {
                     <Text style={styles.title}>Student Link</Text>
                 </View>
                 <View>
-                    <LoginForm></LoginForm>
+                    <LoginForm />
                 </View>
             </KeyboardAvoidingView>
         );
@@ -33,5 +41,5 @@ const styles = StyleSheet.create({
         fontSize: 40,
         fontWeight: 'bold',
         textAlign: 'center',
-    }
+    },
 });
