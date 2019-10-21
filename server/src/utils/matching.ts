@@ -1,6 +1,7 @@
 const _User = require('../models/user');
 const Group = require('../models/group');
 const async = require('async');
+import {pushUserJoinedGroup} from './send-push-notification';
 
 const MAX_GROUP_SIZE = 4;
 
@@ -8,6 +9,7 @@ const MAX_GROUP_SIZE = 4;
 //need endpoint for user to request group, us to respond with choices, user to reply with choice, etc.
 
 //TODO add logic so user doesnt get paired with group they are already in
+
 
 
 const assignPreferenceScores = async function(userId, callback) { //user is an object with userID, courses, and schedule fields
@@ -189,7 +191,6 @@ const findGroupForUser = async function(userId, sortedPotentialMatches, callback
 			if (err)
 				callback(err)
 			else {
-				console.log('get here')
 				callback(null, group)
 			}
 		});
@@ -227,14 +228,22 @@ const joinGroup = async function(userId, groupId, callback) {
 
 		group.members.push(userId)
 		user.groups.push(groupId)
-
-		const groupCopy = JSON.parse(JSON.stringify(group))
 		
 		//console.log('group:', group)
 		//console.log('user:', user)
 
 		await group.save()
 		await user.save()
+
+		const groupUserTokens = []
+		let curr_member;
+
+		for (let i = 0; i < group.members.length; i++) {
+			curr_member = await _User.findOne({ _id: group.members[i] });
+			groupUserTokens.push(curr_member.pushNotificationToken)
+		}
+
+		pushUserJoinedGroup(groupUserTokens, user.firstName)
 
 		callback(null, group)
 
