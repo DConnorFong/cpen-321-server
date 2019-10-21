@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import Login from './src/components/Login/Login';
 import Navbar from './src/components/Navbar/Navbar';
 import Chat from './src/components/Chat/Chat';
+import registerForPushNotificationsAsync from './src/utils/registerForPushNotificationsAsync';
 
 enum Navigation {
     login = 0,
@@ -21,21 +22,30 @@ export default class App extends Component {
         this.HandleChatroomClose = this.HandleChatroomClose.bind(this);
         this.HandleSuccessfulLogin = this.HandleSuccessfulLogin.bind(this);
     }
-    state = { navigator: Navigation.login, navBarEnable: true, userID: ''};
+    state = { navigator: Navigation.login, navBarEnable: true, userID: '' };
 
     ShowMainView(view: any) {
         switch (view) {
             case Navigation.login:
-                return <Login HandleSuccessfulLogin={this.HandleSuccessfulLogin}/>;
+                return (
+                    <Login HandleSuccessfulLogin={this.HandleSuccessfulLogin} />
+                );
             case Navigation.chat:
-                return <Chat HandleChatroomOpen={this.HandleChatroomOpen}
-                             HandleChatroomClose={this.HandleChatroomClose}
-                        />;
+                return (
+                    <Chat
+                        HandleChatroomOpen={this.HandleChatroomOpen}
+                        HandleChatroomClose={this.HandleChatroomClose}
+                    />
+                );
             case Navigation.schedule:
-                {/*return <Schedule />; */}
+                {
+                    /*return <Schedule />; */
+                }
                 return null;
             case Navigation.search:
-                {/*return <Search />; */}
+                {
+                    /*return <Search />; */
+                }
                 return null;
             default:
                 return null;
@@ -54,30 +64,30 @@ export default class App extends Component {
         return null;
     }
     HandleNavButtonSearch() {
-        this.setState({navigator: Navigation.search})
+        this.setState({ navigator: Navigation.search });
         return;
     }
     HandleNavButtonSch() {
-        this.setState({navigator: Navigation.schedule})
+        this.setState({ navigator: Navigation.schedule });
         return;
     }
     HandleNavButtonChat() {
-        this.setState({navigator: Navigation.chat})
+        this.setState({ navigator: Navigation.chat });
         return;
     }
     HandleChatroomOpen() {
-        this.setState({navBarEnable: false})
-        return
+        this.setState({ navBarEnable: false });
+        return;
     }
     HandleChatroomClose() {
-        this.setState({navBarEnable: true})
-        return
+        this.setState({ navBarEnable: true });
+        return;
     }
-    HandleSuccessfulLogin(id:String) {
-        this.setState({userID: id})
-        this.setState({navigator: Navigation.search})
-        alert("User Logged in: userID: " + this.state.userID)
-        return
+    HandleSuccessfulLogin(id: String) {
+        this.setState({ userID: id });
+        this.setState({ navigator: Navigation.search });
+        registerForPushNotificationsAsync(id);
+        return;
     }
     render() {
         return (
