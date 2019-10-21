@@ -146,3 +146,4 @@ export const getRegisteredCourses = async function(userId) {
 	});
 
 }
+
