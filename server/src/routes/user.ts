@@ -1,6 +1,8 @@
 import * as express from 'express';
 import { generateName } from '../utils/generate-name';
 const User = require('../models/user');
+import {matchUser} from '../utils/matching';
+
 
 const router = express.Router();
 
@@ -76,6 +78,25 @@ router.post('/:id/push_notification', async (req, res) => {
         res.send();
     } catch (error) {
         res.status(500).send(error);
+    }
+});
+
+/*
+ * Match a user with a group
+ *
+ * POST /user/userId/match
+ */
+router.post('/:id/match', async (req, res) => {
+    try {
+        matchUser(req.params.id, (err,group) => {
+            if (err) {
+                res.status(400).send(err);
+            } else {
+                res.status(201).send(group);
+            }
+        })   
+    } catch (error) {
+        res.status(400).send(error);
     }
 });
 
