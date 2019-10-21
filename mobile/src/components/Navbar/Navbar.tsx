@@ -11,23 +11,23 @@ export default class Navbar extends Component<NavBarProps, NavBarState> {
     render() {
         return (
             <View style={styles.navbarContainer}>
-            /*
-                <TouchableHighlight onPress={this.props.OnPressNavButtonSearch()} underlayColor='#019898'>
+
+                <TouchableHighlight onPress={this.props.OnPressNavButtonSearch.bind(this)} underlayColor='#019898'>
                     <View style={styles.navButton}>
                         <Text style={styles.navButtonTitle}>Search</Text>
                     </View>
                 </TouchableHighlight>
-                <TouchableHighlight onPress={this.props.OnPressNavButtonSch()} underlayColor='#019898'>
+                <TouchableHighlight onPress={this.props.OnPressNavButtonSch.bind(this)} underlayColor='#019898'>
                     <View style={styles.navButton}>
                         <Text style={styles.navButtonTitle}>Sch</Text>
                     </View>
                 </TouchableHighlight>
-                <TouchableHighlight onPress={this.props.OnPressNavButtonChat()} underlayColor='#019898'>
+                <TouchableHighlight onPress={this.props.OnPressNavButtonChat.bind(this)} underlayColor='#019898'>
                     <View style={styles.navButton}>
                         <Text style={styles.navButtonTitle}>Chat</Text>
                     </View>
                 </TouchableHighlight>
-                */
+
             </View>
         );
     }

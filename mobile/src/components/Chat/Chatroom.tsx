@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, StyleSheet, View, Text, ScrollView, KeyboardAvoidingView, TextInput, StatusBar } from 'react-native';
 
-export default class Chatroom extends Component {
-    state = {message: ''}
-    onChangeText=message => this.setState({message});
-    _onPressBackButton() {
-        {/*return to previous view here*/}
-        alert('Return to Chat View')
-        return
-    }
+interface ChatroomProps {OnPressBackButton: Function;}
+
+export default class Chatroom extends Component<ChatroomProps> {
+
+    sstate = {message: ''}
+
     _onPressSendButton() {
         {/*send message*/}
         alert("send message")
@@ -19,67 +17,25 @@ export default class Chatroom extends Component {
         return (
             <KeyboardAvoidingView behavior="padding" style={styles.container}>
                 <StatusBar barStyle="dark-content" />
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title}>Name</Text>
+                <View style={styles.topContainer}>
+                    <View style={styles.titleContainer}>
+                        <Text style={styles.title}>Group Name</Text>
+                    </View>
                 </View>
                 <View style={styles.backButtonContainer}>
-                    <TouchableOpacity onPress={this._onPressBackButton}>
+                    <TouchableOpacity onPress={this.props.OnPressBackButton.bind(this)}>
                         <Text style={styles.backButtonTitle}>Back</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.whitespace}></View>
                 <View style={styles.scrollContainer}>
-                    <ScrollView contentContainerStyle={styles.contentContainer}>
-                        {/*example messages V*/}
-                        <View style={styles.outgoingMessageContainer}>
-                            <View style={styles.outgoingMessageBox}>
-                                <Text style={styles.messageText}>Message</Text>
-                            </View>
-                        </View>
-                        <View style={styles.incomingMessageContainer}>
-                            <View style={styles.incomingMessageBox}>
-                                <Text style={styles.messageText}>Message</Text>
-                            </View>
-                        </View>
-                        <View style={styles.outgoingMessageContainer}>
-                            <View style={styles.outgoingMessageBox}>
-                                <Text style={styles.messageText}>Long message 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789</Text>
-                            </View>
-                        </View>
-                         <View style={styles.incomingMessageContainer}>
-                            <View style={styles.incomingMessageBox}>
-                                <Text style={styles.messageText}>Message</Text>
-                            </View>
-                        </View>
-                        <View style={styles.outgoingMessageContainer}>
-                            <View style={styles.outgoingMessageBox}>
-                                <Text style={styles.messageText}>Message</Text>
-                            </View>
-                        </View>
-                        <View style={styles.incomingMessageContainer}>
-                            <View style={styles.incomingMessageBox}>
-                                <Text style={styles.messageText}>Message</Text>
-                            </View>
-                        </View>
-                        <View style={styles.outgoingMessageContainer}>
-                            <View style={styles.outgoingMessageBox}>
-                                <Text style={styles.messageText}>Message</Text>
-                            </View>
-                        </View>
-                        <View style={styles.incomingMessageContainer}>
-                            <View style={styles.incomingMessageBox}>
-                                <Text style={styles.messageText}>Message</Text>
-                            </View>
-                        </View>
-                        <View style={styles.outgoingMessageContainer}>
-                            <View style={styles.outgoingMessageBox}>
-                                <Text style={styles.messageText}>Message</Text>
-                            </View>
-                        </View>
-                        {/*example messages ^*/}
+                    <ScrollView contentContainerStyle={styles.contentContainer}
+                                ref={ref => {this.scrollView = ref}}
+                                onContentSizeChange={(contentWidth, contentHeight)=>{this.refs.scrollView.scrollToEnd({animated: false});}}>
                         {/*incoming message begin*/}
                         <View style={styles.incomingMessageContainer}>
                             <View style={styles.incomingMessageBox}>
+                                <Text style={styles.messageSender}>Name</Text>
                                 <Text style={styles.messageText}>Message</Text>
                             </View>
                         </View>
@@ -97,11 +53,6 @@ export default class Chatroom extends Component {
                     <ScrollView scrollEnabled={false}>
                         <TextInput
                             style={styles.input}
-                            placeHolder="Message"
-                            placeholderTextColor='black'
-                            returnKeyType='return'
-                            onChangeText={this.onChangeText}
-                            value={this.state.message}
                             multiline={true}
                         />
                         <View style={styles.sendButtonContainer}>
@@ -121,11 +72,17 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
     },
+    topContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 2.9,
+        zIndex: 1,
+    },
     titleContainer: {
         justifyContent: 'center',
         alignItems: 'center',
         top: 20,
-        postion: 'absolute',
+        position: 'absolute',
     },
     title: {
         color: 'black',
@@ -136,12 +93,12 @@ const styles = StyleSheet.create({
     backButtonContainer: {
         height: 45,
         width: 60,
-        top: 15,
-        left: 15,
+        top: 18,
+        left: 12,
         position: 'absolute',
-        backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: "center",
+        zIndex: 2,
     },
     backButtonTitle: {
         fontSize: 17,
@@ -152,8 +109,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     contentContainer: {
-        flexGrow: 1,
-        justifyContent: 'space-between',
     },
     input: {
         height: 40,
@@ -168,7 +123,7 @@ const styles = StyleSheet.create({
         width: 210,
         margin: 5,
         padding: 8,
-        alignItems: 'left',
+        alignItems: 'flex-start',
         backgroundColor: '#019898',
     },
     incomingMessageBox: {
@@ -176,7 +131,7 @@ const styles = StyleSheet.create({
         width: 210,
         margin: 5,
         padding: 8,
-        alignItems: 'left',
+        alignItems: 'flex-start',
         backgroundColor: '#a6a6a6',
     },
     incomingMessageContainer: {
@@ -185,8 +140,13 @@ const styles = StyleSheet.create({
     outgoingMessageContainer: {
         flexDirection: 'row-reverse',
     },
+    messageSender: {
+        fontSize: 13,
+        fontWeight: 'bold',
+        color: 'white'
+    },
     messageText: {
-        fontSize: '12',
+        fontSize: 12,
         color: 'white',
     },
     sendButtonContainer: {
@@ -210,6 +170,6 @@ const styles = StyleSheet.create({
       backgroundColor: '#d3d3d3',
     },
     whitespace: {
-      flex: 1,
+      flex: 0,
     },
 });

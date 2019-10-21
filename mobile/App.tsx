@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Login from './components/Login/Login';
-import Navbar from './components/Navbar/Navbar';
-import Chat from './components/Chat/Chat';
+import Login from './src/components/Login/Login';
+import Navbar from './src/components/Navbar/Navbar';
+import Chat from './src/components/Chat/Chat';
 
 enum Navigation {
     login = 0,
@@ -17,16 +17,19 @@ export default class App extends Component {
         this.HandleNavButtonSearch = this.HandleNavButtonSearch.bind(this);
         this.HandleNavButtonSch = this.HandleNavButtonSch.bind(this);
         this.HandleNavButtonChat = this.HandleNavButtonChat.bind(this);
+        this.HandleChatroomOpen = this.HandleChatroomOpen.bind(this);
+        this.HandleChatroomClose = this.HandleChatroomClose.bind(this);
     }
-    state = { navigator: Navigation.chat };
+    state = { navigator: Navigation.chat, navBarEnable: true};
 
-    ShowMainView(props: any) {
-        const view = props.view;
+    ShowMainView(view: any) {
         switch (view) {
             case Navigation.login:
                 return <Login />;
             case Navigation.chat:
-                return <Chat />;
+                return <Chat HandleChatroomOpen={this.HandleChatroomOpen}
+                             HandleChatroomClose={this.HandleChatroomClose}
+                        />;
             case Navigation.schedule:
                 {/*return <Schedule />; */}
                 return null;
@@ -37,9 +40,8 @@ export default class App extends Component {
                 return null;
         }
     }
-    ShowNavBar(props: any) {
-        const showNav = props.showNav;
-        if (showNav != Navigation.login) {
+    ShowNavBar(showNav: any, navBarEnable: boolean) {
+        if (showNav != Navigation.login && navBarEnable) {
             return (
                 <Navbar
                     OnPressNavButtonSearch={this.HandleNavButtonSearch}
@@ -50,27 +52,34 @@ export default class App extends Component {
         }
         return null;
     }
-    HandleNavButtonSearch = () => {
-        alert('Navbutton press => change to search view');
+    HandleNavButtonSearch() {
+        this.setState({navigator: Navigation.search})
         return;
     }
     HandleNavButtonSch() {
-        alert('Navbutton press => change to sch view');
+        this.setState({navigator: Navigation.schedule})
         return;
     }
     HandleNavButtonChat() {
-        alert('Navbutton press => change to chat view');
+        this.setState({navigator: Navigation.chat})
         return;
     }
-
+    HandleChatroomOpen() {
+        this.setState({navBarEnable: false})
+        return
+    }
+    HandleChatroomClose() {
+        this.setState({navBarEnable: true})
+        return
+    }
     render() {
         return (
-          <View style={styles.container}>
-            <View style={styles.viewContainer}>
-              <this.ShowMainView view={this.state.navigator} />
+            <View style={styles.container}>
+                <View style={styles.viewContainer}>
+                    {this.ShowMainView(this.state.navigator)}
+                </View>
+                {this.ShowNavBar(this.state.navigator, this.state.navBarEnable)}
             </View>
-            <this.ShowNavBar showNav={this.state.navigator} />
-          </View>
         );
     }
 }
