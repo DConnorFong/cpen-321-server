@@ -64,14 +64,17 @@ const assignPreferenceScores = async function(userId, callback) { //user is an o
 				}
 			})
 
-			pref = (common_courses.length/num_u_courses + common_courses.length/num_g_courses )*(pcntIntersect)
-			if (pref > threshold) {
-				potential_matches.push({groupId: group._id, pref: pref})
+			if (common_courses) {
+				pref = (common_courses.length/num_u_courses + common_courses.length/num_g_courses )*(pcntIntersect)
+				if (pref > threshold) {
+					potential_matches.push({groupId: group._id, pref: pref})
+				}
 			}
+
 		})
 
 		if (!(potential_matches.length > 0)) {
-			callback('No potential matches found')
+			return callback('No potential matches found')
 		}
 
 		let sorted_potential_matches = potential_matches.sort((pm1, pm2) => pm2.pref - pm1.pref);
@@ -86,8 +89,10 @@ const assignPreferenceScores = async function(userId, callback) { //user is an o
 const getCommonCourses = function(user_courses, group_courses, callback) {
 
 	if (!user_courses || !user_courses.length || !group_courses || !group_courses.length) {
-		callback('ERROR: User or Group has no courses to process')
+		return callback('ERROR: User or Group has no courses to process')
 	}
+
+	//console.log('u:', user_courses, 'g:', group_courses)
 
 	const courses = []
 	user_courses.forEach(function(u_course) {
@@ -98,7 +103,7 @@ const getCommonCourses = function(user_courses, group_courses, callback) {
 		})
 	})
 
-	callback(null, courses)
+	return callback(null, courses)
 }
 
 const calcPcntIntersect = function(u_sched, g_meetings, callback) {
@@ -137,7 +142,7 @@ const calcPcntIntersect = function(u_sched, g_meetings, callback) {
 
 	pctIntersect = 100*u_1_count/g_1_count;
 
-	callback(null, pctIntersect, potential_meeting_times)
+	return callback(null, pctIntersect, potential_meeting_times)
 
 	// Transform user and group's schedules into binary numbers of length 28, each bit in this number corresponds
 	// to a 30 min block in the day from 8am to 10pm (we may allow user to change their preferred range in the future).
@@ -189,9 +194,9 @@ const findGroupForUser = async function(userId, sortedPotentialMatches, callback
 
 		joinGroup(userId, sortedPotentialMatches[0].groupId, (err, group) => {
 			if (err)
-				callback(err)
+				return callback(err)
 			else {
-				callback(null, group)
+				return callback(null, group)
 			}
 		});
 
@@ -212,7 +217,7 @@ const joinGroup = async function(userId, groupId, callback) {
 
 		getCommonCourses(user.courses, group.courses, (err, common_courses) => {
 			if (err)
-				callback(err)
+				return callback(err)
 			else {
 				group.courses = common_courses
 			}
@@ -220,7 +225,7 @@ const joinGroup = async function(userId, groupId, callback) {
 
 		calcPcntIntersect(user.schedule, group.meeting_times, (err, pctIntersect, new_meeting_times) => {
 			if (err)
-				callback(err)
+				return callback(err)
 			else {
 				group.meeting_times = new_meeting_times
 			}
@@ -245,7 +250,7 @@ const joinGroup = async function(userId, groupId, callback) {
 
 		pushUserJoinedGroup(groupUserTokens, user.firstName)
 
-		callback(null, group)
+		return callback(null, group)
 
 	} catch (error) {
 		callback(error)
@@ -270,7 +275,7 @@ const createGroup = async function(userId, callback) { //TODO test
 		await user.save()
 	    await group.save()
 
-	    callback(null, group)
+	    return callback(null, group)
 
 	} catch (error) {
 		callback(error)
@@ -283,27 +288,28 @@ export const matchUser = async function(userId, callback) {
 
 		let sortedPotentialMatches;
 		await assignPreferenceScores(userId, (err, sorted_matches) => {
-			if (err) {
-				if (err === 'No potential matches found') {
-					createGroup(userId, (err, group) => {//TODO: await?
-						if (err) {
-							callback(err)
-						} else {
-							callback(group)
-						}
-					})
-				} else {
-					callback(err)
-				}
+			if (err == 'No potential matches found') {
+				createGroup(userId, (err, group) => {
+					if (err) {
+						console.log(err)
+						return callback(err)
+					} else {
+						return callback(null, group)
+					}
+				})
+			} else if (err) {
+				console.log(err)
+				return callback(err) 
 			} else {
 				sortedPotentialMatches = sorted_matches
 				console.log('match potential matches:', sortedPotentialMatches)
 				findGroupForUser(userId, sortedPotentialMatches, (err, group) => {
 					if (err) {
-						callback(err)
+						console.log(err)
+						return callback(err)
 					} else {
 						console.log('found group:', group)
-						callback(null, group);
+						return callback(null, group);
 					}
 				});
 			}

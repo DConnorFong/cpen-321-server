@@ -2,6 +2,7 @@ import * as express from 'express';
 import { generateName } from '../utils/generate-name';
 const User = require('../models/user');
 import {matchUser} from '../utils/matching';
+import {getRegisteredCourses} from '../utils/get-registered-courses';
 
 
 const router = express.Router();
@@ -20,6 +21,20 @@ router.get('/:id', async (req, res) => {
         }
 
         res.send(user);
+    } catch (error) {
+        res.status(500).send();
+    }
+});
+
+/*
+ * Get a user's courses from the Canvas API and use them to populate the database
+ *
+ * POST /user/:id/courses
+ */
+router.post('/:id/courses', async (req, res) => {
+    try {
+        const response = await getRegisteredCourses(req.params.id)
+        res.status(201).send();
     } catch (error) {
         res.status(500).send();
     }

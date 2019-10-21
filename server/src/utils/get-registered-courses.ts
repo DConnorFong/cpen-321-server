@@ -50,7 +50,7 @@ export const getRegisteredCourses = async function(userId) {
 							const response = await generateCourseData(courseName[0], courseName[1]);
 
 							let sections = response['sections']
-							let term1section = sections['101']
+							let term1section = sections['101'] || sections['001']
 							courseDays = term1section['days'].split(" ")
 
 							for (let k = 0; k < courseDays.length; k++) {
