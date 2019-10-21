@@ -29,9 +29,7 @@ export default class Chatroom extends Component<ChatroomProps> {
                 </View>
                 <View style={styles.whitespace}></View>
                 <View style={styles.scrollContainer}>
-                    <ScrollView contentContainerStyle={styles.contentContainer}
-                                ref={ref => {this.scrollView = ref}}
-                                onContentSizeChange={(contentWidth, contentHeight)=>{this.refs.scrollView.scrollToEnd({animated: false});}}>
+                    <ScrollView contentContainerStyle={styles.contentContainer}>
                         {/*incoming message begin*/}
                         <View style={styles.incomingMessageContainer}>
                             <View style={styles.incomingMessageBox}>

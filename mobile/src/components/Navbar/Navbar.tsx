@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
     },
     navButton: {
         flex: 1,
-        margin: 0,
         width: 125,
         alignItems: 'center',
         justifyContent: 'center',
