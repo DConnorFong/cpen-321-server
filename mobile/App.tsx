@@ -19,13 +19,14 @@ export default class App extends Component {
         this.HandleNavButtonChat = this.HandleNavButtonChat.bind(this);
         this.HandleChatroomOpen = this.HandleChatroomOpen.bind(this);
         this.HandleChatroomClose = this.HandleChatroomClose.bind(this);
+        this.HandleSuccessfulLogin = this.HandleSuccessfulLogin.bind(this);
     }
-    state = { navigator: Navigation.chat, navBarEnable: true};
+    state = { navigator: Navigation.login, navBarEnable: true, userID: ''};
 
     ShowMainView(view: any) {
         switch (view) {
             case Navigation.login:
-                return <Login />;
+                return <Login HandleSuccessfulLogin={this.HandleSuccessfulLogin}/>;
             case Navigation.chat:
                 return <Chat HandleChatroomOpen={this.HandleChatroomOpen}
                              HandleChatroomClose={this.HandleChatroomClose}
@@ -70,6 +71,12 @@ export default class App extends Component {
     }
     HandleChatroomClose() {
         this.setState({navBarEnable: true})
+        return
+    }
+    HandleSuccessfulLogin(id:String) {
+        this.setState({userID: id})
+        this.setState({navigator: Navigation.search})
+        alert("User Logged in: userID: " + this.state.userID)
         return
     }
     render() {
