@@ -106,6 +106,7 @@ router.post('/', async (req, res) => {
 router.patch('/:id', async (req, res) => {
     // collect all of the requested key updates and validate them against allowed changes
     const updates = Object.keys(req.body);
+
     const allowedUpdates = [
         'firstName',
         'lastName',
@@ -113,6 +114,7 @@ router.patch('/:id', async (req, res) => {
         'courses',
         'groups',
         'schedule',
+        'token'
     ];
 
     const isValidOperation = updates.every(update => {
