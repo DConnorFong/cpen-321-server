@@ -24,6 +24,31 @@ router.get('/:id', async (req, res) => {
 });
 
 /*
+ * TEMPORARY
+ * Authenticate a user from the database using their first name and last name
+ *
+ * POST /user/login
+ */
+router.post('/login', async (req, res) => {
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+
+    try {
+        const user = await User.findOne({ firstName, lastName });
+
+        if (!user) {
+            res.status(400).send({
+                error: 'Invalid login credentials requested',
+            });
+        }
+
+        res.send(user._id);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+/*
  * Create or overwrite a push notification entry for a user
  *
  * POST /user/:id/push_notification
@@ -81,7 +106,14 @@ router.post('/', async (req, res) => {
 router.patch('/:id', async (req, res) => {
     // collect all of the requested key updates and validate them against allowed changes
     const updates = Object.keys(req.body);
-    const allowedUpdates = ['firstName', 'lastName', 'aliasName', 'courses', 'groups', 'schedule'];
+    const allowedUpdates = [
+        'firstName',
+        'lastName',
+        'aliasName',
+        'courses',
+        'groups',
+        'schedule',
+    ];
 
     const isValidOperation = updates.every(update => {
         return allowedUpdates.includes(update);
