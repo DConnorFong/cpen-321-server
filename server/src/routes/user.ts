@@ -37,12 +37,12 @@ router.post('/login', async (req, res) => {
         const user = await User.findOne({ firstName, lastName });
 
         if (!user) {
-            res.status(400).send({
+            return res.status(400).send({
                 error: 'Invalid login credentials requested',
             });
         }
 
-        res.send(user._id);
+        res.send({ _id: user._id });
     } catch (error) {
         res.status(500).send(error);
     }
