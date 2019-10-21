@@ -11,7 +11,6 @@ export default class Navbar extends Component<NavBarProps, NavBarState> {
     render() {
         return (
             <View style={styles.navbarContainer}>
-
                 <TouchableHighlight onPress={this.props.OnPressNavButtonSearch.bind(this)} underlayColor='#019898'>
                     <View style={styles.navButton}>
                         <Text style={styles.navButtonTitle}>Search</Text>
@@ -27,7 +26,6 @@ export default class Navbar extends Component<NavBarProps, NavBarState> {
                         <Text style={styles.navButtonTitle}>Chat</Text>
                     </View>
                 </TouchableHighlight>
-
             </View>
         );
     }

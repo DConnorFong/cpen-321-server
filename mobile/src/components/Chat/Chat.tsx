@@ -57,7 +57,7 @@ export default class Chat extends Component<ChatProps> {
                 </View>
                 <View style={styles.scrollContainer}>
                     <ScrollView contentContainerStyle={styles.contentContainer}>
-                        {/*Begin chat box, figure out some way to add and subtract these as new convos begin and old ones are deleted, and figure out how to build them with inputted fields*/}
+                        {/*Begin chat box*/}
                         <View style={styles.buttonContainer}>
                             <TouchableOpacity onPress={this.OnPressButton.bind(this)}
                                               onLongPress={this.OnLongPressButton.bind(this)}>
