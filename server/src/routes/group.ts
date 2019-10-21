@@ -11,13 +11,23 @@ const router = express.Router();
  */
 router.get('/:id', async (req, res) => {
     try {
+        
         const group = await Group.findOne({ _id: req.params.id });
+        
+        let curr_member;
+        const retGroup = [];
+
+        for (let i = 0; i < group.members.length; i++) {
+            curr_member = await User.findOne({ _id: group.members[i] });
+            console.log('member:', curr_member)
+            retGroup.push(`${curr_member.firstName} ${curr_member.lastName}: ${curr_member._id}`)
+        }
 
         if (!group) {
             return res.status(404).send();
         }
 
-        res.send(group);
+        res.send(retGroup);
     } catch (error) {
         res.status(500).send();
     }
