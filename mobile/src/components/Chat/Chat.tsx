@@ -14,13 +14,23 @@ export default class Chat extends Component {
         alert("Long Button Press -> open chatroom")
         return
     }
+    _onPressAddButton()
+    {
+        alert("Create new chatroom")
+        return
+    }
 
     render() {
         return (
-            <View behavior="padding" style={styles.container}>
+            <View style={styles.container}>
                 <StatusBar barStyle="dark-content" />
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>Messages</Text>
+                </View>
+                <View style={styles.addButtonContainer}>
+                    <TouchableOpacity onPress={this._onPressAddButton}>
+                        <Text style={styles.addButtonTitle}>+</Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.scrollContainer}>
                     <ScrollView contentContainerStyle={styles.contentContainer}>
@@ -84,7 +94,6 @@ export default class Chat extends Component {
                         {/*example chat boxes ^*/}
                     </ScrollView>
                 </View>
-                    <Navbar></Navbar>
             </View>
         );
     }
@@ -99,13 +108,28 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        top: 5,
+        top: 10,
     },
     title: {
         color: 'black',
         fontSize: 30,
         fontWeight: 'bold',
         textAlign: 'center',
+    },
+    addButtonContainer: {
+        height: 45,
+        width: 60,
+        top: 15,
+        left: 311,
+        position: 'absolute',
+        backgroundColor: 'white',
+        alignItems: 'center',
+        justifyContent: "center",
+    },
+    addButtonTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#019898',
     },
     scrollContainer: {
         flex: 7,

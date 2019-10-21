@@ -1,44 +1,33 @@
 import React, { Component } from 'react';
 import { TouchableHighlight, StyleSheet, View, Text } from 'react-native';
 
-export default class Navbar extends Component {
-    _onPressSchNavButton()
-    {
-        {/*switch to schedule view here*/}
-        alert("Switch to Schedule View")
-        return
-    }
-    _onPressChatNavButton()
-    {
-        {/*switch to chat view here*/}
-        alert("Switch to Chat View")
-        return
-    }
-    _onPressSearchNavButton()
-    {
-        {/*switch to Search view here*/}
-        alert("Switch to Search View")
-        return
-    }
+interface NavBarProps {OnPressNavButtonSearch: Function;
+                       OnPressNavButtonSch: Function;
+                       OnPressNavButtonChat: Function;}
+
+interface NavBarState {}
+export default class Navbar extends Component<NavBarProps, NavBarState> {
 
     render() {
         return (
             <View style={styles.navbarContainer}>
-                <TouchableHighlight onPress={this._onPressSearchNavButton} underlayColor='#019898'>
+            /*
+                <TouchableHighlight onPress={this.props.OnPressNavButtonSearch()} underlayColor='#019898'>
                     <View style={styles.navButton}>
                         <Text style={styles.navButtonTitle}>Search</Text>
                     </View>
                 </TouchableHighlight>
-                <TouchableHighlight onPress={this._onPressSchNavButton} underlayColor='#019898'>
+                <TouchableHighlight onPress={this.props.OnPressNavButtonSch()} underlayColor='#019898'>
                     <View style={styles.navButton}>
                         <Text style={styles.navButtonTitle}>Sch</Text>
                     </View>
                 </TouchableHighlight>
-                <TouchableHighlight onPress={this._onPressChatNavButton} underlayColor='#019898'>
+                <TouchableHighlight onPress={this.props.OnPressNavButtonChat()} underlayColor='#019898'>
                     <View style={styles.navButton}>
                         <Text style={styles.navButtonTitle}>Chat</Text>
                     </View>
                 </TouchableHighlight>
+                */
             </View>
         );
     }
