@@ -1,6 +1,8 @@
 import * as express from 'express';
 import { generateName } from '../utils/generate-name';
 const User = require('../models/user');
+import {matchUser} from '../utils/matching';
+
 
 const router = express.Router();
 
@@ -20,6 +22,31 @@ router.get('/:id', async (req, res) => {
         res.send(user);
     } catch (error) {
         res.status(500).send();
+    }
+});
+
+/*
+ * TEMPORARY
+ * Authenticate a user from the database using their first name and last name
+ *
+ * POST /user/login
+ */
+router.post('/login', async (req, res) => {
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+
+    try {
+        const user = await User.findOne({ firstName, lastName });
+
+        if (!user) {
+            return res.status(400).send({
+                error: 'Invalid login credentials requested',
+            });
+        }
+
+        res.send({ _id: user._id });
+    } catch (error) {
+        res.status(500).send(error);
     }
 });
 
@@ -55,6 +82,25 @@ router.post('/:id/push_notification', async (req, res) => {
 });
 
 /*
+ * Match a user with a group
+ *
+ * POST /user/userId/match
+ */
+router.post('/:id/match', async (req, res) => {
+    try {
+        matchUser(req.params.id, (err,group) => {
+            if (err) {
+                res.status(400).send(err);
+            } else {
+                res.status(201).send(group);
+            }
+        })   
+    } catch (error) {
+        res.status(400).send(error);
+    }
+});
+
+/*
  * Create a user
  *
  * POST /user
@@ -63,6 +109,7 @@ router.post('/', async (req, res) => {
     const user = new User({
         ...req.body,
         aliasName: generateName(),
+        groups: [],
     });
 
     try {
@@ -80,7 +127,16 @@ router.post('/', async (req, res) => {
 router.patch('/:id', async (req, res) => {
     // collect all of the requested key updates and validate them against allowed changes
     const updates = Object.keys(req.body);
-    const allowedUpdates = ['firstName', 'lastName', 'aliasName', 'courses'];
+
+    const allowedUpdates = [
+        'firstName',
+        'lastName',
+        'aliasName',
+        'courses',
+        'groups',
+        'schedule',
+        'token'
+    ];
 
     const isValidOperation = updates.every(update => {
         return allowedUpdates.includes(update);

@@ -11,6 +11,7 @@ export default class Login extends Component<LoginProps, {}> {
     constructor(props: LoginProps) {
         super(props);
     }
+
     render() {
         return (
             <KeyboardAvoidingView behavior="padding" style={styles.container}>

@@ -111,6 +111,74 @@
                     }
                 ]
             }
+        },
+        "/group/{groupId}": {
+            "get": {
+                "tags": ["Group"],
+                "summary": "Get a Group object by ID",
+                "description": "",
+                "operationId": "",
+                "produces": [],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "groupId",
+                        "description": "The ID of the Group to return",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/group/{groupId}/": {
+            "patch": {
+                "tags": ["Group"],
+                "summary": "Update a Group object by ID",
+                "description": "",
+                "operationId": "",
+                "produces": []
+            }
+        },
+        "/group": {
+            "post": {
+                "tags": ["Group"],
+                "summary": "Create a Group by providing a User's userId, schedule, and registered courses' courseIds",
+                "description": "",
+                "operationId": "",
+                "produces": [],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "members",
+                        "description": "The founding User's userId",
+                        "required": true,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "body",
+                        "name": "courses",
+                        "description": "The founding User's courses",
+                        "required": true,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "body",
+                        "name": "meeting_times",
+                        "description": "The founding User's schedule",
+                        "required": true,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
         }
     }
 }
