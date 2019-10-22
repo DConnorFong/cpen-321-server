@@ -37,6 +37,7 @@ export const getRegisteredCourses = async function(userId) {
 				reject({})
 			} else {
 				body = JSON.parse(body)
+				user.courses = []
 				for (let i = 0; i < body.length; i++) {
 					
 					courseInDB = 0;

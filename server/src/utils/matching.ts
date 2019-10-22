@@ -242,15 +242,18 @@ const joinGroup = async function(userId, groupId, callback) {
 
 		const groupUserTokens = []
 		let curr_member;
+		const groupCopy = JSON.parse(JSON.stringify(group))
+		groupCopy.names = []
 
 		for (let i = 0; i < group.members.length; i++) {
 			curr_member = await _User.findOne({ _id: group.members[i] });
+			groupCopy.names.push(`${curr_member.firstName} ${curr_member.lastName}`)
 			groupUserTokens.push(curr_member.pushNotificationToken)
 		}
 
 		pushUserJoinedGroup(groupUserTokens, user.firstName)
 
-		return callback(null, group)
+		return callback(null, groupCopy)
 
 	} catch (error) {
 		callback(error)
