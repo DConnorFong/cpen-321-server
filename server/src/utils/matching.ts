@@ -296,7 +296,11 @@ const createGroup = async function(userId, callback) {
         await user.save();
         await group.save();
 
-        return callback(null, group);
+        const groupCopy = JSON.parse(JSON.stringify(group));
+        groupCopy.names = []
+        groupCopy.names.push(`${user.firstName} ${user.lastName}`)
+
+        return callback(null, groupCopy);
     } catch (error) {
         callback(error);
     }

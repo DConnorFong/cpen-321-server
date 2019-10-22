@@ -11,13 +11,13 @@ export const getRegisteredCourses = async function(userId) {
 	const user = await User.findOne({ _id: userId });
 
 	user.schedule = [
-		"10000000000000000000000000000",
-		"10000000000000000000000000000",
-		"10000000000000000000000000000",
-		"10000000000000000000000000000",
-		"10000000000000000000000000000",
-		"10000000000000000000000000000",
-		"10000000000000000000000000000",
+		"11111111111111111111111111111",
+		"11111111111111111111111111111",
+		"11111111111111111111111111111",
+		"11111111111111111111111111111",
+		"11111111111111111111111111111",
+		"11111111111111111111111111111",
+		"11111111111111111111111111111",
 	]
 
 	const courses = await Course.find({})
@@ -43,7 +43,10 @@ export const getRegisteredCourses = async function(userId) {
 					courseInDB = 0;
 					let currCourse = body[i]
 					//console.log('cc:', currCourse)
-					if(!currCourse.access_restricted_by_date == true && !currCourse.name.includes('Engineering Co-op')) {
+					if(!currCourse.access_restricted_by_date == true 
+						&& !currCourse.name.includes('Engineering Co-op') 
+						&& !currCourse.name.includes('Safety')
+						&& !currCourse.name.includes('Capstone')) {
 						
 						courseName = currCourse.name
 						courseName = courseName.split(" ")
@@ -175,7 +178,7 @@ export const getRegisteredCourses = async function(userId) {
 										}
 										
 										for(let i = startIndex; i < endIndex; i++) {
-											user.schedule[0] = setCharAt(user.schedule[0], i, '1')//.charAt(i) = '1'
+											user.schedule[0] = setCharAt(user.schedule[0], i, '0')//.charAt(i) = '1'
 										}
 										
 									break;
@@ -193,7 +196,7 @@ export const getRegisteredCourses = async function(userId) {
 										}
 										
 										for(let i = startIndex; i < endIndex; i++) {
-											user.schedule[1] = setCharAt(user.schedule[1], i, '1')//.charAt(i) = '1'
+											user.schedule[1] = setCharAt(user.schedule[1], i, '0')//.charAt(i) = '1'
 										}
 										
 									break;
@@ -211,7 +214,7 @@ export const getRegisteredCourses = async function(userId) {
 										}
 										
 										for(let i = startIndex; i < endIndex; i++) {
-											user.schedule[2] = setCharAt(user.schedule[2], i, '1')//.charAt(i) = '1'
+											user.schedule[2] = setCharAt(user.schedule[2], i, '0')//.charAt(i) = '1'
 										}
 										
 									break;
@@ -229,7 +232,7 @@ export const getRegisteredCourses = async function(userId) {
 										}
 										
 										for(let i = startIndex; i < endIndex; i++) {
-											user.schedule[3] = setCharAt(user.schedule[3], i, '1')//.charAt(i) = '1'
+											user.schedule[3] = setCharAt(user.schedule[3], i, '0')//.charAt(i) = '1'
 										}
 										
 									break;
@@ -247,7 +250,7 @@ export const getRegisteredCourses = async function(userId) {
 										}
 										
 										for(let i = startIndex; i < endIndex; i++) {
-											user.schedule[4] = setCharAt(user.schedule[4], i, '1')//.charAt(i) = '1'
+											user.schedule[4] = setCharAt(user.schedule[4], i, '0')//.charAt(i) = '1'
 										}
 										
 									break;
@@ -265,7 +268,7 @@ export const getRegisteredCourses = async function(userId) {
 										}
 										
 										for(let i = startIndex; i < endIndex; i++) {
-											user.schedule[5] = setCharAt(user.schedule[5], i, '1')//.charAt(i) = '1'
+											user.schedule[5] = setCharAt(user.schedule[5], i, '0')//.charAt(i) = '1'
 										}
 										
 									break;
@@ -283,7 +286,7 @@ export const getRegisteredCourses = async function(userId) {
 										}
 										
 										for(let i = startIndex; i < endIndex; i++) {
-											user.schedule[6] = setCharAt(user.schedule[6], i, '1')//.charAt(i) = '1'
+											user.schedule[6] = setCharAt(user.schedule[6], i, '0')//.charAt(i) = '1'
 										}
 										
 									break;
