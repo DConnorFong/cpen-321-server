@@ -14,6 +14,8 @@ export const getRegisteredCourses = async function(userId) {
 
 	let course_code, courseName, courseInDB;
 
+	console.log('token:', user.token)
+
 	return new Promise((resolve, reject) => {
 		request.get(server + '/api/v1/courses', {
 		  'auth': {
