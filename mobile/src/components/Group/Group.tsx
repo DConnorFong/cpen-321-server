@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { StyleSheet, View, SafeAreaView, ScrollView, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import GroupContainer from './GroupContainer'
 
+const endpoint = 'http://ec2-18-222-96-240.us-east-2.compute.amazonaws.com';
+
 interface GroupProps { userID: String; }
 
 interface GroupState {
@@ -19,6 +21,7 @@ export default class Group extends Component<GroupProps, GroupState> {
             isLoading: false,
             groups: this.groups,
         }
+        this.searchPress = this.searchPress.bind(this);
     }
 
     render() {
@@ -37,7 +40,10 @@ export default class Group extends Component<GroupProps, GroupState> {
                     <ScrollView contentContainerStyle={styles.contentContainer}>
                         {this.renderGroups()}
                     </ScrollView>
-                    <TouchableOpacity style={styles.searchButton}>
+                    <TouchableOpacity
+                        style={styles.searchButton}
+                        onPress={this.searchPress}
+                    >
                         <Text style={styles.buttonText}>Search</Text>
                     </TouchableOpacity>
                 </SafeAreaView>
@@ -49,6 +55,41 @@ export default class Group extends Component<GroupProps, GroupState> {
         return this.groups.map((memberGroup) =>
             <GroupContainer group={memberGroup} />
         );
+    }
+
+    searchPress() {
+        fetch(`${endpoint}/user/${this.props.userID}/match`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => {
+                if (response.ok) return response.json();
+                else throw ('Error: problem retrieving group match');
+            })
+            .then(responseJson => {
+                this.groupMatch(responseJson['members']);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    groupMatch(memberList) {
+        var memberNames = [];
+        for (let memberItem of memberList) {
+            // memberItem = memberItem.substring(0, memberItem.indexOf(':'));
+            memberNames.push(memberItem);
+        }
+        this.groups.push({
+            name: "Group 1",
+            members: memberNames,
+        });
+        this.setState({
+            groups: this.groups,
+        })
     }
 }
 
