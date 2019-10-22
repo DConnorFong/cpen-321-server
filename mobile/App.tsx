@@ -41,9 +41,9 @@ export default class App extends Component {
                     />
                 );
             case Navigation.schedule:
-                 return <Schedule userID={this.state.userID}/>
+                return <Schedule userID={this.state.userID} />;
             case Navigation.group:
-                return <Group userID={this.state.userID}/>
+                return <Group userID={this.state.userID} />;
             default:
                 return null;
         }
@@ -84,7 +84,6 @@ export default class App extends Component {
         this.setState({ userID: id });
         this.setState({ navigator: Navigation.group });
         registerForPushNotificationsAsync(id);
-        alert("userID: " + this.state.userID);
         return;
     }
     render() {
