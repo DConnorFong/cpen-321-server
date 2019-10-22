@@ -3,13 +3,14 @@ import { StyleSheet, Text, View } from 'react-native';
 import Login from './src/components/Login/Login';
 import Navbar from './src/components/Navbar/Navbar';
 import Chat from './src/components/Chat/Chat';
+import Group from './src/components/Group/Group';
 import registerForPushNotificationsAsync from './src/utils/registerForPushNotificationsAsync';
 
 enum Navigation {
     login = 0,
     chat,
     schedule,
-    search,
+    group,
 }
 
 export default class App extends Component {
@@ -22,6 +23,7 @@ export default class App extends Component {
         this.HandleChatroomClose = this.HandleChatroomClose.bind(this);
         this.HandleSuccessfulLogin = this.HandleSuccessfulLogin.bind(this);
     }
+
     state = { navigator: Navigation.login, navBarEnable: true, userID: '' };
 
     ShowMainView(view: any) {
@@ -42,11 +44,8 @@ export default class App extends Component {
                     /*return <Schedule />; */
                 }
                 return null;
-            case Navigation.search:
-                {
-                    /*return <Search />; */
-                }
-                return null;
+            case Navigation.group:
+                return <Group userID={this.state.userID}/>
             default:
                 return null;
         }
@@ -64,7 +63,7 @@ export default class App extends Component {
         return null;
     }
     HandleNavButtonSearch() {
-        this.setState({ navigator: Navigation.search });
+        this.setState({ navigator: Navigation.group });
         return;
     }
     HandleNavButtonSch() {
@@ -85,7 +84,7 @@ export default class App extends Component {
     }
     HandleSuccessfulLogin(id: String) {
         this.setState({ userID: id });
-        this.setState({ navigator: Navigation.search });
+        this.setState({ navigator: Navigation.group });
         registerForPushNotificationsAsync(id);
         return;
     }

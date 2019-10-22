@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, SafeAreaView, ScrollView, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import GroupContainer from './GroupContainer'
 
-interface GroupProps { }
+interface GroupProps { userID: String; }
 
 interface GroupState {
     isLoading: boolean;
