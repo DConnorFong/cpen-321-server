@@ -74,7 +74,7 @@ const assignPreferenceScores = async function(userId, callback) {
                 }
             });
 
-            if (common_courses) {
+            if (common_courses && !group.members.includes(user._id)) {
                 pref =
                     (common_courses.length / num_u_courses +
                         common_courses.length / num_g_courses) *
