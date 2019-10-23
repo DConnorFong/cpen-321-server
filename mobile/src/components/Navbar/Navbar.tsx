@@ -6,6 +6,8 @@ import {
     SafeAreaView,
     Text,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { navbarStyles } from '../../styles/navbar';
 
 interface NavBarProps {
     OnPressNavButtonSearch: Function;
@@ -17,79 +19,64 @@ interface NavBarState {}
 export default class Navbar extends Component<NavBarProps, NavBarState> {
     render() {
         return (
-            <SafeAreaView style={styles.navbarContainer}>
+            <SafeAreaView style={navbarStyles.navbarContainer}>
                 <TouchableHighlight
                     onPress={this.props.OnPressNavButtonSearch.bind(this)}
-                    style={styles.leftNavButton}
+                    style={navbarStyles.navButton}
                     underlayColor="rgba(255,255,255,0.4)"
                 >
-                    <View style={styles.navButtonContainer}>
-                        <Text style={styles.navButtonTitle}>Search</Text>
+                    <View style={navbarStyles.navButtonContainer}>
+                        <View style={navbarStyles.navButtonIconContainer}>
+                            <Ionicons
+                                name="ios-people"
+                                size={35}
+                                color="white"
+                            />
+                        </View>
+                        <View style={navbarStyles.navButtonTextContainer}>
+                            <Text style={navbarStyles.navButtonText}>
+                                Group
+                            </Text>
+                        </View>
                     </View>
                 </TouchableHighlight>
                 <TouchableHighlight
                     onPress={this.props.OnPressNavButtonSch.bind(this)}
-                    style={styles.navButton}
+                    style={navbarStyles.navButton}
                     underlayColor="rgba(255,255,255,0.4)"
                 >
-                    <View style={styles.navButtonContainer}>
-                        <Text style={styles.navButtonTitle}>Schedule</Text>
+                    <View style={navbarStyles.navButtonContainer}>
+                        <View style={navbarStyles.navButtonIconContainer}>
+                            <Ionicons
+                                name="ios-calendar"
+                                size={35}
+                                color="white"
+                            />
+                        </View>
+                        <View style={navbarStyles.navButtonTextContainer}>
+                            <Text style={navbarStyles.navButtonText}>
+                                Schedule
+                            </Text>
+                        </View>
                     </View>
                 </TouchableHighlight>
                 <TouchableHighlight
                     onPress={this.props.OnPressNavButtonChat.bind(this)}
-                    style={styles.rightNavButton}
+                    style={navbarStyles.navButton}
                     underlayColor="rgba(255,255,255,0.4)"
                 >
-                    <View style={styles.navButtonContainer}>
-                        <Text style={styles.navButtonTitle}>Chat</Text>
+                    <View style={navbarStyles.navButtonContainer}>
+                        <View style={navbarStyles.navButtonIconContainer}>
+                            <Ionicons name="ios-text" size={35} color="white" />
+                        </View>
+                        <View style={navbarStyles.navButtonTextContainer}>
+                            <Text style={navbarStyles.navButtonText}>
+                                Messages
+                            </Text>
+                        </View>
                     </View>
                 </TouchableHighlight>
             </SafeAreaView>
         );
     }
 }
-
-const styles = StyleSheet.create({
-    navbarContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        backgroundColor: '#01a3a4',
-        justifyContent: 'center',
-    },
-    navButtonContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    navButton: {
-        flex: 1,
-        alignItems: 'center',
-        borderColor: 'white',
-        borderWidth: 1,
-    },
-    leftNavButton: {
-        flex: 1,
-        alignItems: 'center',
-        borderTopColor: 'white',
-        borderTopWidth: 1,
-        borderRightColor: 'white',
-        borderRightWidth: 1,
-        borderBottomColor: 'white',
-        borderBottomWidth: 1,
-    },
-    rightNavButton: {
-        flex: 1,
-        alignItems: 'center',
-        borderTopColor: 'white',
-        borderTopWidth: 1,
-        borderLeftColor: 'white',
-        borderLeftWidth: 1,
-        borderBottomColor: 'white',
-        borderBottomWidth: 1,
-    },
-    navButtonTitle: {
-        fontSize: 15,
-        color: 'white',
-    },
-});

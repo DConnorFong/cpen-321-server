@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import GroupContainer from './GroupContainer';
 import { genericStyles } from '../../styles/generic';
+import { groupStyles } from '../../styles/groupStyles';
 
 const endpoint = 'http://ec2-18-222-96-240.us-east-2.compute.amazonaws.com';
 
@@ -47,7 +48,9 @@ export default class Group extends Component<GroupProps, GroupState> {
                     <View style={genericStyles.titleContainer}>
                         <Text style={genericStyles.title}>Groups</Text>
                     </View>
-                    <ScrollView contentContainerStyle={styles.contentContainer}>
+                    <ScrollView
+                        contentContainerStyle={groupStyles.contentContainer}
+                    >
                         {this.renderGroups()}
                     </ScrollView>
                     <TouchableOpacity
@@ -102,9 +105,3 @@ export default class Group extends Component<GroupProps, GroupState> {
         });
     }
 }
-
-const styles = StyleSheet.create({
-    contentContainer: {
-        flexGrow: 1,
-    },
-});

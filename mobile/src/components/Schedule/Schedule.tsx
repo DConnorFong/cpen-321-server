@@ -9,6 +9,7 @@ import {
     ActivityIndicator,
 } from 'react-native';
 import { genericStyles } from '../../styles/generic';
+import { scheduleStyles } from '../../styles/schedule';
 
 const endpoint = 'http://ec2-18-222-96-240.us-east-2.compute.amazonaws.com';
 
@@ -54,7 +55,7 @@ export default class Schedule extends Component<ScheduleProps, ScheduleState> {
                 <View style={genericStyles.titleContainer}>
                     <Text style={genericStyles.title}>Schedule</Text>
                 </View>
-                <View style={styles.scrollContainer}>
+                <View style={scheduleStyles.scrollContainer}>
                     <ScrollView>{this.renderCourses()}</ScrollView>
                 </View>
                 <TouchableOpacity
@@ -71,27 +72,9 @@ export default class Schedule extends Component<ScheduleProps, ScheduleState> {
 
     renderCourses() {
         return this.state.courses.map(course => (
-            <View style={styles.courseContainer} key={course}>
-                <Text style={styles.courseText}>{course}</Text>
+            <View style={scheduleStyles.courseContainer} key={course}>
+                <Text style={scheduleStyles.courseText}>{course}</Text>
             </View>
         ));
     }
 }
-
-const styles = StyleSheet.create({
-    scrollContainer: {
-        flex: 7,
-    },
-    courseContainer: {
-        height: 50,
-        margin: 7,
-        backgroundColor: '#019898',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    courseText: {
-        fontSize: 25,
-        fontWeight: 'bold',
-        color: 'white',
-    },
-});

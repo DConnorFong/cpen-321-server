@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Chatroom from './Chatroom';
 import { genericStyles } from '../../styles/generic';
+import { chatStyles } from '../../styles/chat';
 
 enum ChatViews {
     chat = 0,
@@ -73,24 +74,26 @@ export default class Chat extends Component<ChatProps> {
                 <View style={genericStyles.titleContainer}>
                     <Text style={genericStyles.title}>Messages</Text>
                 </View>
-                <View style={styles.scrollContainer}>
-                    <ScrollView contentContainerStyle={styles.contentContainer}>
+                <View style={chatStyles.scrollContainer}>
+                    <ScrollView
+                        contentContainerStyle={chatStyles.contentContainer}
+                    >
                         {/*Begin chat box*/}
                         <TouchableOpacity
                             onPress={this.OnPressButton.bind(this)}
                             onLongPress={this.OnLongPressButton.bind(this)}
-                            style={styles.buttonContainer}
+                            style={chatStyles.buttonContainer}
                         >
-                            <View style={styles.buttonTitleContainer}>
-                                <Text style={styles.buttonTitle}>Name</Text>
+                            <View style={chatStyles.buttonTitleContainer}>
+                                <Text style={chatStyles.buttonTitle}>Name</Text>
                             </View>
-                            <View style={styles.buttonSubtitleContainer}>
-                                <Text style={styles.buttonSubtitle}>
+                            <View style={chatStyles.buttonSubtitleContainer}>
+                                <Text style={chatStyles.buttonSubtitle}>
                                     Preview
                                 </Text>
                             </View>
                         </TouchableOpacity>
-                        <View style={styles.whiteSpace}></View>
+                        <View style={chatStyles.whiteSpace}></View>
                         {/*End chat box*/}
                     </ScrollView>
                 </View>
@@ -106,43 +109,3 @@ export default class Chat extends Component<ChatProps> {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    scrollContainer: {
-        flex: 7,
-        backgroundColor: 'white',
-    },
-    contentContainer: {
-        flexGrow: 1,
-        justifyContent: 'space-between',
-    },
-    buttonContainer: {
-        backgroundColor: '#019898',
-        marginHorizontal: 10,
-        borderRadius: 10,
-    },
-    buttonTitleContainer: {
-        flex: 1,
-        marginTop: 10,
-        marginHorizontal: 10,
-    },
-    buttonTitle: {
-        fontSize: 25,
-        fontWeight: 'bold',
-        textAlign: 'left',
-        color: 'white',
-    },
-    buttonSubtitleContainer: {
-        flex: 2,
-        marginHorizontal: 10,
-        marginBottom: 30,
-    },
-    buttonSubtitle: {
-        fontSize: 18,
-        textAlign: 'left',
-        color: 'white',
-    },
-    whiteSpace: {
-        height: 10,
-    },
-});
