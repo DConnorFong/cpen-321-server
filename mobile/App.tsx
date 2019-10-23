@@ -103,6 +103,6 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     viewContainer: {
-        flex: 8,
+        flex: 17,
     },
 });

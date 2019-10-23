@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import {
     StyleSheet,
     View,
+    SafeAreaView,
     ScrollView,
     Text,
     TouchableOpacity,
     ActivityIndicator,
 } from 'react-native';
+import { genericStyles } from '../../styles/generic';
 
 const endpoint = 'http://ec2-18-222-96-240.us-east-2.compute.amazonaws.com';
 
@@ -48,20 +50,22 @@ export default class Schedule extends Component<ScheduleProps, ScheduleState> {
 
     render() {
         return (
-            <View style={styles.container}>
+            <SafeAreaView style={genericStyles.container}>
+                <View style={genericStyles.titleContainer}>
+                    <Text style={genericStyles.title}>Schedule</Text>
+                </View>
                 <View style={styles.scrollContainer}>
                     <ScrollView>{this.renderCourses()}</ScrollView>
                 </View>
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity onPress={this.getCourses}>
-                        <View style={styles.button}>
-                            <Text style={styles.buttonText}>
-                                Refresh Courses
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-            </View>
+                <TouchableOpacity
+                    onPress={this.getCourses}
+                    style={genericStyles.button}
+                >
+                    <Text style={genericStyles.buttonText}>
+                        Refresh Courses
+                    </Text>
+                </TouchableOpacity>
+            </SafeAreaView>
         );
     }
 
@@ -75,10 +79,6 @@ export default class Schedule extends Component<ScheduleProps, ScheduleState> {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'white',
-    },
     scrollContainer: {
         flex: 7,
     },
@@ -92,20 +92,6 @@ const styles = StyleSheet.create({
     courseText: {
         fontSize: 25,
         fontWeight: 'bold',
-        color: 'white',
-    },
-    buttonContainer: {
-        backgroundColor: '#019898',
-        margin: 10,
-        height: 50,
-        justifyContent: 'center',
-    },
-    button: {
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    buttonText: {
-        fontSize: 19,
         color: 'white',
     },
 });

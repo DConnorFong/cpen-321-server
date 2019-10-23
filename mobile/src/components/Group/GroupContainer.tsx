@@ -5,25 +5,21 @@ interface GroupContainerProps {
     group: {
         name: String;
         members: String[];
-    }
+    };
 }
 
 export default class GroupContainer extends Component<GroupContainerProps, {}> {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.groupName}>
-                    {this.props.group.name}
-                </Text>
+                <Text style={styles.groupName}>{this.props.group.name}</Text>
                 <FlatList
                     data={this.props.group.members}
-                    renderItem={
-                        ({ item }) =>
-                            <Text style={styles.groupMember}>{item}</Text>
-                    }
-                    keyExtractor={
-                        (item, index) => index.toString()
-                    } />
+                    renderItem={({ item }) => (
+                        <Text style={styles.groupMember}>{item}</Text>
+                    )}
+                    keyExtractor={(item, index) => index.toString()}
+                />
             </View>
         );
     }
@@ -36,6 +32,7 @@ const styles = StyleSheet.create({
         padding: 10,
         marginHorizontal: 15,
         marginVertical: 10,
+        borderRadius: 10,
     },
     groupName: {
         color: 'white',
@@ -49,5 +46,5 @@ const styles = StyleSheet.create({
         fontSize: 15,
         textAlign: 'center',
         marginBottom: 3,
-    }
+    },
 });
