@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import GroupContainer from './GroupContainer';
 import { genericStyles } from '../../styles/generic';
-import { groupStyles } from '../../styles/groupStyles';
+import { groupStyles } from '../../styles/group';
 
 const endpoint = 'http://ec2-18-222-96-240.us-east-2.compute.amazonaws.com';
 

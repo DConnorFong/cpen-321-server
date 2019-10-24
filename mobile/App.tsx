@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { appStyles } from './src/styles/app';
 import Login from './src/components/Login/Login';
 import Navbar from './src/components/Navbar/Navbar';
 import Chat from './src/components/Chat/Chat';
@@ -88,8 +89,8 @@ export default class App extends Component {
     }
     render() {
         return (
-            <View style={styles.container}>
-                <View style={styles.viewContainer}>
+            <View style={appStyles.container}>
+                <View style={appStyles.viewContainer}>
                     {this.ShowMainView(this.state.navigator)}
                 </View>
                 {this.ShowNavBar(this.state.navigator, this.state.navBarEnable)}
@@ -97,12 +98,3 @@ export default class App extends Component {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    viewContainer: {
-        flex: 13,
-    },
-});

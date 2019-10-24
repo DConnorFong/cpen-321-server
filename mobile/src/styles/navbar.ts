@@ -12,7 +12,6 @@ export const navbarStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingTop: 3,
-        paddingBottom: 12,
     },
     navButton: {
         flex: 1,
@@ -36,5 +35,6 @@ export const navbarStyles = StyleSheet.create({
     navButtonTextContainer: {
         flex: 1,
         justifyContent: 'center',
+        bottom: 7,
     },
 });
