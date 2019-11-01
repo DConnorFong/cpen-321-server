@@ -52,7 +52,6 @@ export default class App extends Component {
     }
 
     HandleSuccessfulLogin(id: String) {
-        console.log('Handling Success');
         this.setState({ userID: id });
         this.handleViewChange(viewEnum.group);
         registerForPushNotificationsAsync(id);
