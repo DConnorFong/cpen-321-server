@@ -7,11 +7,10 @@ import {
     navbarActiveColor,
     navbarHighlightColor,
 } from '../../styles/navbar';
+import { viewEnum } from '../../enum/viewEnum';
 
 interface NavBarProps {
-    OnPressNavButtonSearch: Function;
-    OnPressNavButtonSch: Function;
-    OnPressNavButtonChat: Function;
+    handleViewChange: Function;
 }
 
 /*
@@ -35,22 +34,22 @@ export default class Navbar extends Component<NavBarProps, NavBarState> {
             active: 0,
             options: [
                 {
-                    key: 0,
+                    key: viewEnum.group,
                     title: 'Group',
                     icon: 'ios-people',
                 },
                 {
-                    key: 1,
+                    key: viewEnum.schedule,
                     title: 'Schedule',
                     icon: 'ios-calendar',
                 },
                 {
-                    key: 2,
+                    key: viewEnum.chat,
                     title: 'Messages',
                     icon: 'ios-text',
                 },
                 {
-                    key: 3,
+                    key: 4,
                     title: 'Settings',
                     icon: 'ios-settings',
                 },
@@ -73,16 +72,16 @@ export default class Navbar extends Component<NavBarProps, NavBarState> {
         });
 
         switch (selection) {
-            case 0:
-                this.props.OnPressNavButtonSearch();
+            case viewEnum.group:
+                this.props.handleViewChange(selection);
                 break;
-            case 1:
-                this.props.OnPressNavButtonSch();
+            case viewEnum.schedule:
+                this.props.handleViewChange(selection);
                 break;
-            case 2:
-                this.props.OnPressNavButtonChat();
+            case viewEnum.chat:
+                this.props.handleViewChange(selection);
                 break;
-            case 3:
+            case 4:
                 // TODO: route to settings view
                 break;
             default:

@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import {
-    TouchableHighlight,
     TouchableOpacity,
-    StyleSheet,
     SafeAreaView,
     View,
     Text,
     ScrollView,
-    StatusBar,
 } from 'react-native';
 import Chatroom from './Chatroom';
 import { genericStyles } from '../../styles/generic';
@@ -19,15 +16,13 @@ enum ChatViews {
 }
 
 interface ChatProps {
-    HandleChatroomOpen: Function;
-    HandleChatroomClose: Function;
+    toggleNavBar: Function;
 }
 
 export default class Chat extends Component<ChatProps> {
     constructor(props: any) {
         super(props);
         this.OnPressButton = this.OnPressButton.bind(this);
-        this.OnLongPressButton = this.OnLongPressButton.bind(this);
         this.HandleChatroomReturn = this.HandleChatroomReturn.bind(this);
     }
 
@@ -38,20 +33,12 @@ export default class Chat extends Component<ChatProps> {
             /*open chatroom Here*/
         }
         this.setState({ chatNav: ChatViews.chatroom });
-        this.props.HandleChatroomOpen();
-        return;
-    }
-    OnLongPressButton() {
-        {
-            /*open chatroom Here*/
-        }
-        this.setState({ chatNav: ChatViews.chatroom });
-        this.props.HandleChatroomOpen();
+        this.props.toggleNavBar(false);
         return;
     }
     HandleChatroomReturn() {
         this.setState({ chatNav: ChatViews.chat });
-        this.props.HandleChatroomClose();
+        this.props.toggleNavBar(true);
         return;
     }
     ShowChatViews(view: any) {
@@ -81,7 +68,7 @@ export default class Chat extends Component<ChatProps> {
                         {/*Begin chat box*/}
                         <TouchableOpacity
                             onPress={this.OnPressButton.bind(this)}
-                            onLongPress={this.OnLongPressButton.bind(this)}
+                            onLongPress={this.OnPressButton.bind(this)}
                             style={chatStyles.buttonContainer}
                         >
                             <View style={chatStyles.buttonTitleContainer}>

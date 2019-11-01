@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { View } from 'react-native';
 import { appStyles } from './src/styles/app';
 import Login from './src/components/Login/Login';
 import Navbar from './src/components/Navbar/Navbar';
@@ -7,86 +7,58 @@ import Chat from './src/components/Chat/Chat';
 import Group from './src/components/Group/Group';
 import Schedule from './src/components/Schedule/Schedule';
 import registerForPushNotificationsAsync from './src/utils/registerForPushNotificationsAsync';
-
-enum Navigation {
-    login = 0,
-    chat,
-    schedule,
-    group,
-}
+import { viewEnum } from './src/enum/viewEnum';
 
 export default class App extends Component {
     constructor(props: any) {
         super(props);
-        this.HandleNavButtonSearch = this.HandleNavButtonSearch.bind(this);
-        this.HandleNavButtonSch = this.HandleNavButtonSch.bind(this);
-        this.HandleNavButtonChat = this.HandleNavButtonChat.bind(this);
-        this.HandleChatroomOpen = this.HandleChatroomOpen.bind(this);
-        this.HandleChatroomClose = this.HandleChatroomClose.bind(this);
+        this.handleViewChange = this.handleViewChange.bind(this);
+        this.toggleNavBar = this.toggleNavBar.bind(this);
         this.HandleSuccessfulLogin = this.HandleSuccessfulLogin.bind(this);
     }
 
-    state = { navigator: Navigation.login, navBarEnable: true, userID: '' };
+    state = { navigator: viewEnum.login, navBarEnable: true, userID: '' };
 
     ShowMainView(view: any) {
         switch (view) {
-            case Navigation.login:
+            case viewEnum.login:
                 return (
                     <Login HandleSuccessfulLogin={this.HandleSuccessfulLogin} />
                 );
-            case Navigation.chat:
-                return (
-                    <Chat
-                        HandleChatroomOpen={this.HandleChatroomOpen}
-                        HandleChatroomClose={this.HandleChatroomClose}
-                    />
-                );
-            case Navigation.schedule:
+            case viewEnum.chat:
+                return <Chat toggleNavBar={this.toggleNavBar} />;
+            case viewEnum.schedule:
                 return <Schedule userID={this.state.userID} />;
-            case Navigation.group:
+            case viewEnum.group:
                 return <Group userID={this.state.userID} />;
             default:
                 return null;
         }
     }
+
     ShowNavBar(showNav: any, navBarEnable: boolean) {
-        if (showNav != Navigation.login && navBarEnable) {
-            return (
-                <Navbar
-                    OnPressNavButtonSearch={this.HandleNavButtonSearch}
-                    OnPressNavButtonSch={this.HandleNavButtonSch}
-                    OnPressNavButtonChat={this.HandleNavButtonChat}
-                />
-            );
+        if (showNav != viewEnum.login && navBarEnable) {
+            return <Navbar handleViewChange={this.handleViewChange} />;
         }
         return null;
     }
-    HandleNavButtonSearch() {
-        this.setState({ navigator: Navigation.group });
-        return;
+
+    handleViewChange(view) {
+        this.setState({ navigator: view });
     }
-    HandleNavButtonSch() {
-        this.setState({ navigator: Navigation.schedule });
-        return;
+
+    toggleNavBar(active: boolean) {
+        this.setState({ navBarEnable: active });
     }
-    HandleNavButtonChat() {
-        this.setState({ navigator: Navigation.chat });
-        return;
-    }
-    HandleChatroomOpen() {
-        this.setState({ navBarEnable: false });
-        return;
-    }
-    HandleChatroomClose() {
-        this.setState({ navBarEnable: true });
-        return;
-    }
+
     HandleSuccessfulLogin(id: String) {
+        console.log('Handling Success');
         this.setState({ userID: id });
-        this.setState({ navigator: Navigation.group });
+        this.handleViewChange(viewEnum.group);
         registerForPushNotificationsAsync(id);
         return;
     }
+
     render() {
         return (
             <View style={appStyles.container}>
