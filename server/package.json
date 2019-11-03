@@ -27,7 +27,7 @@
         "express": "^4.17.1",
         "log": "^6.0.0",
         "log-node": "^7.0.0",
-        "mongoose": "^5.7.1",
+        "mongoose": "^5.7.5",
         "request": "^2.88.0",
         "swagger-ui-express": "^4.1.1"
     },
