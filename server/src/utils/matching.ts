@@ -9,12 +9,12 @@ const MAX_GROUP_SIZE = 4;
 // library to ask for user input?
 // need endpoint for user to request group, us to respond with choices, user to reply with choice, etc.
 
-const assignPreferenceScores = async (userId, callback) => {
+const assignPreferenceScores = (userId, callback) => {
     // user is an object with userID, courses, and schedule fields
 
     try {
-        const user = await User.findOne({ _id: userId });
-        const groups = await Group.find({
+        const user = User.findOne({ _id: userId });
+        const groups = Group.find({
             /*members: { size: { $lte: MAX_GROUP_SIZE } } */
         }); // TODO: need to find syntax for this
         const potentialMatches = []; // objects with two fields: groupID, pref_score;
@@ -143,7 +143,7 @@ const calcPcntIntersect = (uSched, gMeetings, callback) => {
     return callback(null, pctIntersect, potentialMeetingTimes);
 };
 
-const findGroupForUser = async (userId, sortedPotentialMatches, callback) => {
+const findGroupForUser = (userId, sortedPotentialMatches, callback) => {
     // if (sortedPotentialMatches.size > 0) {
     // 	const group1 = sortedPotentialMatches.shift();
     // 	const group2 = sortedPotentialMatches.shift();
@@ -191,10 +191,10 @@ const findGroupForUser = async (userId, sortedPotentialMatches, callback) => {
     // log.debug('sortedPotentialMatches:', sortedPotentialMatches);
 };
 
-const joinGroup = async (userId, groupId, callback) => {
+const joinGroup = (userId, groupId, callback) => {
     try {
-        const user = await User.findOne({ _id: userId });
-        const group = await Group.findOne({ _id: groupId });
+        const user = User.findOne({ _id: userId });
+        const group = Group.findOne({ _id: groupId });
 
         getCommonCourses(user.courses, group.courses, (err, commonCourses) => {
             if (err) {
@@ -218,8 +218,8 @@ const joinGroup = async (userId, groupId, callback) => {
         // log.debug('group:', group);
         // log.debug('user:', user);
 
-        await group.save();
-        await user.save();
+        group.save();
+        user.save();
 
         const groupUserTokens = [];
         let currMember;
@@ -227,7 +227,7 @@ const joinGroup = async (userId, groupId, callback) => {
         groupCopy.names = [];
 
         for (const groupMember of group.members) {
-            currMember = await User.findOne({ _id: groupMember });
+            currMember = User.findOne({ _id: groupMember });
             if (currMember) {
                 groupCopy.names.push(`${currMember.firstName} ${currMember.lastName}`);
                 groupUserTokens.push(currMember.pushNotificationToken);
@@ -242,9 +242,9 @@ const joinGroup = async (userId, groupId, callback) => {
     }
 };
 
-const createGroup = async (userId, callback) => {
+const createGroup = (userId, callback) => {
     try {
-        const user = await User.findOne({ _id: userId });
+        const user = User.findOne({ _id: userId });
 
         const group = new Group({
             members: [userId],
@@ -254,8 +254,8 @@ const createGroup = async (userId, callback) => {
 
         user.groups.push(group._id);
 
-        await user.save();
-        await group.save();
+        user.save();
+        group.save();
 
         const groupCopy = JSON.parse(JSON.stringify(group));
         groupCopy.names = [];
@@ -270,7 +270,7 @@ const createGroup = async (userId, callback) => {
 export const matchUser = async (userId, callback) => {
     try {
         let sortedPotentialMatches;
-        await assignPreferenceScores(userId, (err, sortedMatches) => {
+        assignPreferenceScores(userId, (err, sortedMatches) => {
             if (err === 'No potential matches found') {
                 createGroup(userId, (error, group) => {
                     if (error) {

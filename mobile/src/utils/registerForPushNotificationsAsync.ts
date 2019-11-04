@@ -1,8 +1,8 @@
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
+import globals from '../globals';
 
-const PUSH_ENDPOINT =
-    'http://ec2-18-222-96-240.us-east-2.compute.amazonaws.com/user/';
+const PUSH_ENDPOINT = globals.endpoint;
 
 const PUSH_ROUTE = '/push_notification';
 

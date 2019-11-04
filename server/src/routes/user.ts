@@ -102,7 +102,7 @@ router.post('/:id/push_notification', async (req, res) => {
  */
 router.post('/:id/match', async (req, res) => {
     try {
-        matchUser(req.params.id, (err, group) => {
+        await matchUser(req.params.id, (err, group) => {
             if (err) {
                 res.status(400).send(err);
             } else {
