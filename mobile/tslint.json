@@ -6,6 +6,9 @@
         "tslint-config-prettier"
     ],
     "rules": {
+        "curly": {
+            "severity": "off"
+        },
         "jsx-no-bind": {
             "severity": "off"
         },

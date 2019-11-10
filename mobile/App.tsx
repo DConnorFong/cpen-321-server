@@ -6,6 +6,7 @@ import Navbar from './src/components/Navbar/Navbar';
 import Chat from './src/components/Chat/Chat';
 import Group from './src/components/Group/Group';
 import Schedule from './src/components/Schedule/Schedule';
+import Settings from './src/components/Settings/Settings';
 import registerForPushNotificationsAsync from './src/utils/registerForPushNotificationsAsync';
 import { viewEnum } from './src/enum/viewEnum';
 
@@ -68,6 +69,8 @@ export default class App extends Component<{}, IAppState> {
                 return <Schedule userID={this.state.userID} />;
             case viewEnum.group:
                 return <Group userID={this.state.userID} />;
+            case viewEnum.settings:
+                return <Settings userID={this.state.userID} />;
             default:
                 return null;
         }
