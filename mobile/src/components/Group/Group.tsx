@@ -11,8 +11,9 @@ import {
 import GroupContainer from './GroupContainer';
 import { genericStyles } from '../../styles/generic';
 import { groupStyles } from '../../styles/group';
+import config from '../../../config/config';
 
-const endpoint = 'http://ec2-18-222-96-240.us-east-2.compute.amazonaws.com';
+const endpoint = config.endpoint;
 
 interface IGroupProps {
     userID: string;

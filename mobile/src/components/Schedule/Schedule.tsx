@@ -8,8 +8,9 @@ import {
 } from 'react-native';
 import { genericStyles } from '../../styles/generic';
 import { scheduleStyles } from '../../styles/schedule';
+import config from '../../../config/config';
 
-const endpoint = 'http://ec2-18-222-96-240.us-east-2.compute.amazonaws.com';
+const endpoint = config.endpoint;
 
 interface ScheduleProps {
     userID: String;

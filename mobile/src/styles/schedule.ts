@@ -10,6 +10,7 @@ export const scheduleStyles = StyleSheet.create({
         backgroundColor: '#019898',
         alignItems: 'center',
         justifyContent: 'center',
+        borderRadius: 10,
     },
     courseText: {
         fontSize: 25,
