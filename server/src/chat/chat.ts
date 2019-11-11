@@ -1,5 +1,6 @@
 import * as socketIO from 'socket.io';
 import * as log from 'log';
+import { createChatMessage, getChat } from './chatMethods';
 
 /*
  * A simple chat service implemented using socket.io for StudentLink
@@ -7,14 +8,18 @@ import * as log from 'log';
 export const initializeChat = service => {
     const io = socketIO(service);
 
-    io.on('connection', () => {
+    io.on('connection', (socket, userId: string) => {
         log.debug('A new user has connected to the chat');
 
-        // TODO: return a chat body to the connected user
+        const initChat = getChat(userId);
+        socket.emit('init', initChat);
 
-        // TODO: implement
-        io.on('sendMessage', () => {
-            // TODO: broadcast to all members within the group
+        io.on('sendMessage', (sentUserId: string, sentGroupId: string, message: string, callback) => {
+            const newMessage = createChatMessage(sentUserId, sentGroupId, message);
+
+            // TODO: add 'room' listening
+            io.emit('message', newMessage);
+            callback(newMessage);
         });
     });
 
