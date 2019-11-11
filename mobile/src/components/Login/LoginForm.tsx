@@ -8,9 +8,9 @@ import {
     Keyboard,
 } from 'react-native';
 import { loginFormStyles } from '../../styles/loginForm';
+import config from '../../../config/config';
 
-// TODO: find a way to clean this up
-const endpoint = 'http://ec2-18-222-96-240.us-east-2.compute.amazonaws.com';
+const endpoint = config.endpoint;
 
 interface ILoginFormProps {
     handleSuccessfulLogin: (id: string) => void;
