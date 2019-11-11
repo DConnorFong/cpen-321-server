@@ -9,7 +9,7 @@ import {
 import Chatroom from './Chatroom';
 import { genericStyles } from '../../styles/generic';
 import { chatStyles } from '../../styles/chat';
-import { chatEnum } from '../../enum/chatEnum'
+import { chatEnum } from '../../enum/chatEnum';
 
 interface ChatProps {
     toggleNavBar: Function;
