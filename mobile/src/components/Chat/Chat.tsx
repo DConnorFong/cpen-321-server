@@ -9,11 +9,7 @@ import {
 import Chatroom from './Chatroom';
 import { genericStyles } from '../../styles/generic';
 import { chatStyles } from '../../styles/chat';
-
-enum ChatViews {
-    chat = 0,
-    chatroom,
-}
+import { chatEnum } from '../../enum/chatEnum'
 
 interface ChatProps {
     toggleNavBar: Function;
@@ -26,26 +22,26 @@ export default class Chat extends Component<ChatProps> {
         this.HandleChatroomReturn = this.HandleChatroomReturn.bind(this);
     }
 
-    state = { chatNav: ChatViews.chat };
+    state = { chatNav: chatEnum.chat };
 
     OnPressButton() {
         {
             /*open chatroom Here*/
         }
-        this.setState({ chatNav: ChatViews.chatroom });
+        this.setState({ chatNav: chatEnum.chatroom });
         this.props.toggleNavBar(false);
         return;
     }
     HandleChatroomReturn() {
-        this.setState({ chatNav: ChatViews.chat });
+        this.setState({ chatNav: chatEnum.chat });
         this.props.toggleNavBar(true);
         return;
     }
     ShowChatViews(view: any) {
         switch (view) {
-            case ChatViews.chat:
+            case chatEnum.chat:
                 return this.ChatMainView();
-            case ChatViews.chatroom:
+            case chatEnum.chatroom:
                 return (
                     <Chatroom
                         OnPressBackButton={this.HandleChatroomReturn.bind(this)}
