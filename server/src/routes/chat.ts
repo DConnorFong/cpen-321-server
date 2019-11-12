@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { getChat, createChatMessage } from '../chat/chatMethods';
+import { getChat, getChatMembers, createChatMessage } from '../chat/chatMethods';
 
 const Chat = require('../models/chat');
 const router = express.Router();
@@ -27,6 +27,21 @@ router.get('/group/:id', async (req, res) => {
     } catch (error) {
         res.status(500).send();
     }
+});
+
+/*
+ * Get all group members of a chat
+ *
+ * GET /chat/group/:id/user
+ */
+router.get('/group/:id/user', async (req, res) => {
+    const group = await getChatMembers('', req.params.id);
+
+    if (!group) {
+        return res.status(404).send();
+    }
+
+    res.send(group);
 });
 
 /*
