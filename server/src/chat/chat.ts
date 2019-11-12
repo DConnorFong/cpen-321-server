@@ -4,6 +4,8 @@ import { createChatMessage, getChat } from './chatMethods';
 
 /*
  * A simple chat service implemented using socket.io for StudentLink
+ *
+ * TODO: verify if this requires async
  */
 export const initializeChat = service => {
     const io = socketIO(service);

@@ -34,11 +34,22 @@ export const getChat = async (userId: string) => {
  * groupId: the id of the target chat
  * message: contents
  */
-export const createChatMessage = (userId: string, groupId: string, message: string) => {
-    // TODO: implement
+export const createChatMessage = async (userId: string, groupId: string, message: string) => {
     // retrieve the chat from group id
+    const chat = await Chat.findOne({ groupId });
+    const user = await User.findOne({ _id: userId });
+
     // update the messages list
-    // save the chat
-    // return the message
-    return {};
+    const newMessage = {
+        senderId: userId,
+        senderName: user.firstName,
+        message,
+        createdAt: Date.now(),
+    };
+
+    chat.messages.push(newMessage);
+
+    await chat.save();
+
+    return newMessage;
 };
