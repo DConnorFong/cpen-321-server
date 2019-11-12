@@ -1,4 +1,6 @@
 import * as express from 'express';
+import { getChat } from '../chat/chatMethods';
+
 const Chat = require('../models/chat');
 const router = express.Router();
 
@@ -13,9 +15,23 @@ const router = express.Router();
  *
  * GET /chat/:id
  */
-router.get('/:id', async (req, res) => {
+router.get('/group/:id', async (req, res) => {
     try {
         const chat = await Chat.findOne({ groupId: req.params.id });
+
+        if (!chat) {
+            return res.status(404).send();
+        }
+
+        res.send(chat);
+    } catch (error) {
+        res.status(500).send();
+    }
+});
+
+router.get('/user/:id', async (req, res) => {
+    try {
+        const chat = await getChat(req.params.id);
 
         if (!chat) {
             return res.status(404).send();

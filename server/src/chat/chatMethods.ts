@@ -1,18 +1,30 @@
-import * as Chat from '../models/chat';
 import * as Group from '../models/group';
+const User = require('../models/user');
+const Chat = require('../models/chat');
 
 /*
  * Get an initial representation of all chats on a user connection
  *
  * userId: the id of the connecting user
  */
-export const getChat = (userId: string) => {
-    // TODO: implement
+export const getChat = async (userId: string) => {
     // retrieve all groups of a user
-    // create a JSON object
-    // iterate: add all chat data from each group to the JSON object
-    // return the object
-    return {};
+    const user = await User.findOne({ _id: userId });
+
+    // TODO: error handling
+    // if (!user) {}
+
+    const groups = user.groups;
+
+    // fill an array with chat data from each group
+    const chat = [];
+
+    for (const group of groups) {
+        const currChat = await Chat.findOne({ groupId: group });
+        chat.push(currChat);
+    }
+
+    return chat;
 };
 
 /*
