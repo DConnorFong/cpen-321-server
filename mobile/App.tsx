@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
+import io from 'socket.io-client';
 import { appStyles } from './src/styles/app';
 import Login from './src/components/Login/Login';
 import Navbar from './src/components/Navbar/Navbar';
@@ -9,8 +10,13 @@ import Schedule from './src/components/Schedule/Schedule';
 import Settings from './src/components/Settings/Settings';
 import registerForPushNotificationsAsync from './src/utils/registerForPushNotificationsAsync';
 import { viewEnum } from './src/enum/viewEnum';
+import config from './config/config';
+
+const endpoint = config.endpoint;
 
 interface IAppState {
+    chatBody: any[];
+    socket: any;
     navigator: number;
     navBarEnable: boolean;
     userID: string;
@@ -23,8 +29,11 @@ export default class App extends Component<{}, IAppState> {
         this.handleViewChange = this.handleViewChange.bind(this);
         this.toggleNavBar = this.toggleNavBar.bind(this);
         this.handleSuccessfulLogin = this.handleSuccessfulLogin.bind(this);
+        this.handleSocketConnection = this.handleSocketConnection.bind(this);
 
         this.state = {
+            chatBody: [],
+            socket: '',
             navigator: viewEnum.login,
             navBarEnable: true,
             userID: '',
@@ -53,8 +62,22 @@ export default class App extends Component<{}, IAppState> {
     public handleSuccessfulLogin(id: string) {
         this.setState({ userID: id });
         this.handleViewChange(viewEnum.group);
+
+        // initialize push notifications
         registerForPushNotificationsAsync(id);
+
+        // initialize socket functionality
+        this.handleSocketConnection();
+
         return;
+    }
+
+    private handleSocketConnection() {
+        const socket = io(endpoint);
+        this.setState({ socket });
+        this.state.socket.emit('join', this.state.userID, chatBody => {
+            this.setState({ chatBody });
+        });
     }
 
     private showMainView(view: any) {
