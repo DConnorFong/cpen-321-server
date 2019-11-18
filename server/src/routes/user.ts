@@ -32,7 +32,7 @@ router.get('/:id', async (req, res) => {
  */
 router.post('/:id/courses', async (req, res) => {
     try {
-        getRegisteredCourses(req.params.id);
+        await getRegisteredCourses(req.params.id);
         res.status(201).send();
     } catch (error) {
         res.status(500).send();

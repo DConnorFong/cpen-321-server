@@ -67,7 +67,6 @@ const assignPreferenceScores = async (userId, callback) => {
                 if (pref > threshold) {
                     potentialMatches.push({ groupId: group._id, pref: { pref } });
                 }
-                console.log('pref', pref, 'courses', commonCourses);
             }
         });
 
@@ -246,8 +245,6 @@ const createGroup = async (userId, callback) => {
     try {
         const user = await User.findOne({ _id: userId });
 
-        console.log('user =>', user);
-
         const group = new Group({
             members: [userId],
             courses: user.courses,
@@ -273,10 +270,8 @@ export const matchUser = async (userId, callback) => {
         let sortedPotentialMatches;
         await assignPreferenceScores(userId, (err, sortedMatches) => {
             if (err === 'No potential matches found') {
-                console.log(err);
                 createGroup(userId, (error, group) => {
                     if (error) {
-                        console.log(error);
                         log.error(error);
                         return callback(error);
                     } else {
@@ -284,7 +279,6 @@ export const matchUser = async (userId, callback) => {
                     }
                 });
             } else if (err) {
-                console.log(err);
                 log.error(err);
                 return callback(err);
             } else {
@@ -292,7 +286,6 @@ export const matchUser = async (userId, callback) => {
                 // log.debug('match potential matches:', sortedPotentialMatches);
                 findGroupForUser(userId, sortedPotentialMatches, (error, group) => {
                     if (error) {
-                        console.log(error);
                         log.error(error);
                         return callback(error);
                     } else {
@@ -303,7 +296,6 @@ export const matchUser = async (userId, callback) => {
             }
         });
     } catch (error) {
-        console.log(error);
         log.error(error);
         callback(error);
     }
