@@ -42,7 +42,7 @@ test('getRegisteredCourses for User should update User and Course DBs correctly'
 
     await CpenOG.save();
 
-    const response = await request(service)
+    await request(service)
         .post(`/user/${CpenOG._id}/courses`)
         .send();
 
