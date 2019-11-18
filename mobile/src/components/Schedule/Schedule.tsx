@@ -9,6 +9,7 @@ import {
 import { genericStyles } from '../../styles/generic';
 import { scheduleStyles } from '../../styles/schedule';
 import config from '../../../config/config';
+import { hook } from 'cavy';
 
 const endpoint = config.endpoint;
 
@@ -19,7 +20,8 @@ interface ScheduleProps {
 interface ScheduleState {
     courses: any[];
 }
-export default class Schedule extends Component<ScheduleProps, ScheduleState> {
+
+class Schedule extends Component<ScheduleProps, ScheduleState> {
     constructor(props: ScheduleProps) {
         super(props);
         this.state = { courses: this.tempCourses };
@@ -50,16 +52,26 @@ export default class Schedule extends Component<ScheduleProps, ScheduleState> {
 
     render() {
         return (
-            <SafeAreaView style={genericStyles.container}>
+            <SafeAreaView
+                style={genericStyles.container}
+                ref={this.props.generateTestHook('Schedule.screen')}
+            >
                 <View style={genericStyles.titleContainer}>
                     <Text style={genericStyles.title}>Schedule</Text>
                 </View>
                 <View style={scheduleStyles.scrollContainer}>
-                    <ScrollView>{this.renderCourses()}</ScrollView>
+                    <ScrollView
+                        ref={this.props.generateTestHook('Schedule.courseList')}
+                    >
+                        {this.renderCourses()}
+                    </ScrollView>
                 </View>
                 <TouchableOpacity
                     onPress={this.getCourses}
                     style={genericStyles.button}
+                    ref={this.props.generateTestHook(
+                        'Schedule.refreshCoursesBtn'
+                    )}
                 >
                     <Text style={genericStyles.buttonText}>
                         Refresh Courses
@@ -77,3 +89,6 @@ export default class Schedule extends Component<ScheduleProps, ScheduleState> {
         ));
     }
 }
+
+const TestableSchedule = hook(Schedule);
+export default TestableSchedule;

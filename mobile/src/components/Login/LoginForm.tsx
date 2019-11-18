@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {
-    StyleSheet,
     View,
     TextInput,
     TouchableOpacity,
@@ -9,6 +8,7 @@ import {
 } from 'react-native';
 import { loginFormStyles } from '../../styles/loginForm';
 import config from '../../../config/config';
+import { hook } from 'cavy';
 
 const endpoint = config.endpoint;
 
@@ -23,10 +23,7 @@ interface ILoginFormState {
     forgotPasswordMessage: string;
 }
 
-export default class LoginForm extends Component<
-    ILoginFormProps,
-    ILoginFormState
-> {
+class LoginForm extends Component<ILoginFormProps, ILoginFormState> {
     private usernameInput: any;
     private passwordInput: any;
 
@@ -66,9 +63,9 @@ export default class LoginForm extends Component<
                     returnKeyType="next"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    onSubmitEditing={() => this.passwordInput.focus()}
+                    // onSubmitEditing={() => this.passwordInput.focus()}
                     onChangeText={this.handleUsernameUpdate}
-                    ref={input => (this.usernameInput = input)}
+                    ref={this.props.generateTestHook('LoginForm.email')}
                     style={loginFormStyles.input}
                 />
                 <TextInput
@@ -77,12 +74,13 @@ export default class LoginForm extends Component<
                     returnKeyType="go"
                     secureTextEntry
                     onChangeText={this.handlePasswordUpdate}
-                    ref={input => (this.passwordInput = input)}
+                    ref={this.props.generateTestHook('LoginForm.password')}
                     style={loginFormStyles.input}
                 />
                 <TouchableOpacity
                     onPress={this.loginPress}
                     style={loginFormStyles.buttonContainer}
+                    ref={this.props.generateTestHook('LoginForm.loginBtn')}
                 >
                     <Text style={loginFormStyles.buttonText}>LOGIN</Text>
                 </TouchableOpacity>
@@ -135,7 +133,7 @@ export default class LoginForm extends Component<
                 forgotPasswordMessage: 'Forgot Password?',
             });
             Keyboard.dismiss();
-            this.passwordInput.clear();
+            // this.passwordInput.clear();
         } else {
             this.setState({
                 errorMessage: '',
@@ -143,3 +141,6 @@ export default class LoginForm extends Component<
         }
     }
 }
+
+const TestableLoginForm = hook(LoginForm);
+export default TestableLoginForm;

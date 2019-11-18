@@ -83,5 +83,5 @@ server/dist/*
 # vscode files
 **/.vscode/*
 
-# expo bin
-mobile/bin/*
+# Exponent files
+**/mobile/bin/*

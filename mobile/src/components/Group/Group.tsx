@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {
-    StyleSheet,
     View,
     SafeAreaView,
     ScrollView,
@@ -12,6 +11,7 @@ import GroupContainer from './GroupContainer';
 import { genericStyles } from '../../styles/generic';
 import { groupStyles } from '../../styles/group';
 import config from '../../../config/config';
+import { hook } from 'cavy';
 
 const endpoint = config.endpoint;
 
@@ -24,7 +24,7 @@ interface IGroupState {
     groups: any[];
 }
 
-export default class Group extends Component<IGroupProps, IGroupState> {
+class Group extends Component<IGroupProps, IGroupState> {
     private groups = [];
 
     constructor(props) {
@@ -45,16 +45,21 @@ export default class Group extends Component<IGroupProps, IGroupState> {
             );
         } else {
             return (
-                <SafeAreaView style={genericStyles.container}>
+                <SafeAreaView
+                    style={genericStyles.container}
+                    ref={this.props.generateTestHook('Group.screen')}
+                >
                     <View style={genericStyles.titleContainer}>
                         <Text style={genericStyles.title}>Groups</Text>
                     </View>
                     <ScrollView
                         contentContainerStyle={groupStyles.contentContainer}
+                        ref={this.props.generateTestHook('Group.groupList')}
                     >
                         {this.renderGroups()}
                     </ScrollView>
                     <TouchableOpacity
+                        ref={this.props.generateTestHook('Group.searchBtn')}
                         style={genericStyles.button}
                         onPress={this.searchPress}
                     >
@@ -109,3 +114,6 @@ export default class Group extends Component<IGroupProps, IGroupState> {
         });
     }
 }
+
+const TestableGroup = hook(Group);
+export default TestableGroup;

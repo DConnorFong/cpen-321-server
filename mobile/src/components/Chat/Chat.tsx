@@ -10,12 +10,13 @@ import Chatroom from './Chatroom';
 import { genericStyles } from '../../styles/generic';
 import { chatStyles } from '../../styles/chat';
 import { chatEnum } from '../../enum/chatEnum';
+import { hook } from 'cavy';
 
 interface ChatProps {
     toggleNavBar: Function;
 }
 
-export default class Chat extends Component<ChatProps> {
+class Chat extends Component<ChatProps> {
     constructor(props: any) {
         super(props);
         this.OnPressButton = this.OnPressButton.bind(this);
@@ -53,7 +54,10 @@ export default class Chat extends Component<ChatProps> {
     }
     ChatMainView() {
         return (
-            <SafeAreaView style={genericStyles.container}>
+            <SafeAreaView
+                style={genericStyles.container}
+                ref={this.props.generateTestHook('Chat.screen')}
+            >
                 <View style={genericStyles.titleContainer}>
                     <Text style={genericStyles.title}>Messages</Text>
                 </View>
@@ -92,3 +96,6 @@ export default class Chat extends Component<ChatProps> {
         );
     }
 }
+
+const TestableChat = hook(Chat);
+export default TestableChat;

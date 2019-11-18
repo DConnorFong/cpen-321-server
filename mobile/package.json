@@ -5,8 +5,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "detox test --configuration ios.sim",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "test": "cavy run-ios"
   },
   "dependencies": {
     "expo": "^34.0.1",
@@ -17,13 +17,11 @@
     "socket.io-client": "^2.1.1"
   },
   "devDependencies": {
+    "@types/cavy": "^3.1.1",
     "@types/react": "^16.8.23",
     "@types/react-native": "^0.57.65",
     "babel-preset-expo": "^6.0.0",
-    "detox": "^14.7.1",
-    "detox-expo-helpers": "^0.6.0",
-    "expo-detox-hook": "^1.0.10",
-    "mocha": "^6.2.2",
+    "cavy": "^3.1.0",
     "prettier": "^1.18.2",
     "tslint": "^5.19.0",
     "tslint-config-prettier": "^1.18.0",
@@ -31,14 +29,5 @@
     "tslint-react": "^4.1.0",
     "typescript": "^3.4.5"
   },
-  "private": true,
-  "detox": {
-    "configurations": {
-      "ios.sim": {
-        "binaryPath": "bin/Exponent.app",
-        "type": "ios.simulator",
-        "name": "iPhone 7"
-      }
-    }
-  }
+  "private": true
 }

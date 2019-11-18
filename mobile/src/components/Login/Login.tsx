@@ -9,12 +9,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { loginGradient, loginStyles } from '../../styles/login';
 import LoginForm from './LoginForm';
+import { hook } from 'cavy';
 
 interface ILoginProps {
     handleSuccessfulLogin: (id: string) => void;
 }
 
-export default class Login extends Component<ILoginProps, {}> {
+class Login extends Component<ILoginProps, {}> {
     constructor(props: ILoginProps) {
         super(props);
     }
@@ -30,6 +31,7 @@ export default class Login extends Component<ILoginProps, {}> {
                 <KeyboardAvoidingView
                     behavior="padding"
                     style={loginStyles.container}
+                    ref={this.props.generateTestHook('Login.screen')}
                 >
                     <View style={loginStyles.logoContainer}>
                         <View style={loginStyles.logoLine}>
@@ -62,3 +64,6 @@ export default class Login extends Component<ILoginProps, {}> {
         );
     }
 }
+
+const TestableLogin = hook(Login);
+export default TestableLogin;

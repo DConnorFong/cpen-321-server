@@ -8,6 +8,7 @@ import {
     navbarHighlightColor,
 } from '../../styles/navbar';
 import { viewEnum } from '../../enum/viewEnum';
+import { hook } from 'cavy';
 
 interface INavBarProps {
     handleViewChange: (id: number) => void;
@@ -21,7 +22,7 @@ interface INavBarState {
     options: any[];
 }
 
-export default class Navbar extends Component<INavBarProps, INavBarState> {
+class Navbar extends Component<INavBarProps, INavBarState> {
     constructor(props: INavBarProps) {
         super(props);
         this.handleSelection = this.handleSelection.bind(this);
@@ -79,6 +80,7 @@ export default class Navbar extends Component<INavBarProps, INavBarState> {
                 onPress={this.handleSelection.bind(this, option.key)}
                 style={navbarStyles.navButton}
                 underlayColor={navbarHighlightColor}
+                ref={this.props.generateTestHook('Navbar.' + option.title)}
             >
                 <View style={navbarStyles.navButtonContainer}>
                     <View style={navbarStyles.navButtonIconContainer}>
@@ -112,3 +114,6 @@ export default class Navbar extends Component<INavBarProps, INavBarState> {
         else return navbarBaseColor;
     }
 }
+
+const TestableNavbar = hook(Navbar);
+export default TestableNavbar;
