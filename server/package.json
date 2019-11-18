@@ -10,7 +10,8 @@
         "start:dev": "env-cmd -f ./config/dev.env nodemon",
         "start:prod": "npm run build && env-cmd -f ./config/dev.env node ./dist/server.js",
         "test": "env-cmd -f ./config/test.env jest --runInBand --coverage",
-        "test:watch": "env-cmd -f ./config/test.env jest --runInBand --watch"
+        "test:watch": "env-cmd -f ./config/test.env jest --runInBand --watch",
+        "travis": "env-cmd -f ./config/travis.env jest --runInBand"
     },
     "devDependencies": {
         "@types/jest": "^24.0.23",

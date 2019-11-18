@@ -74,7 +74,8 @@ typings/
 
 # config files
 mobile/config/*.env
-server/config/*.env
+server/config/dev.env
+server/config/test.env
 
 # server generated output 
 server/dist/*
