@@ -40,9 +40,9 @@ export const getRegisteredCourses = async userId => {
                 } else {
                     body = JSON.parse(body);
                     user.courses = [];
-                    for (let i = 0; i < body.length; i++) {
+                    for (let j = 0; j < body.length; j++) {
                         courseInDB = 0;
-                        const currCourse = body[i];
+                        const currCourse = body[j];
                         // log.debug('cc:', currCourse);
                         if (
                             !currCourse.access_restricted_by_date === true &&
@@ -146,7 +146,7 @@ export const getRegisteredCourses = async userId => {
 
                             if (courseInDB === 0) {
                                 const newCourse = new Course({
-                                    courseCode: { courseCode },
+                                    courseCode: courseCode,
                                     courseSection: courseName[2],
                                     times: courseTimes,
                                 });
@@ -158,6 +158,7 @@ export const getRegisteredCourses = async userId => {
 
                             let startIndex;
                             let endIndex;
+                            let i;
 
                             courseTimes.forEach(courseObj => {
                                 if (
