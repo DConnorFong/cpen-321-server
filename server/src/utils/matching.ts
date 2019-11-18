@@ -20,7 +20,11 @@ const assignPreferenceScores = async (userId, callback) => {
         const potentialMatches = []; // objects with two fields: groupID, pref_score;
         let pref; // temp to store pref value for current group
         let pcntIntersect; // temp to store percent of intersection between user and current group's schedules
+<<<<<<< HEAD
         const threshold = 90; // threshold above which pref will need to be in order for corresponding group to be potential match
+=======
+        const threshold = 100; // threshold above which pref will need to be in order for corresponding group to be potential match
+>>>>>>> 2a58e61517b031d1304270d4cd58e0fb8cdc333f
         let commonCourses; // common courses between user and current group
         const numUCourses = user.courses.length;
         let numGCourses;

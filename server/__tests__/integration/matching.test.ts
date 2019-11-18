@@ -19,6 +19,7 @@ afterAll(async () => {
     await dbHandler.closeDatabase();
 });
 
+
 test('Initialize Group and User DBs', async () => {
 
 	await User.deleteMany();
@@ -239,3 +240,4 @@ test('A user will not join groups they are already in', async () => {
     expect(body.names).toEqual([`${goodMatchUser.firstName} ${goodMatchUser.lastName}`]);
 
 });
+
