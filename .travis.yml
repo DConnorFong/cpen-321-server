@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - "node"
+cache:
+  directories:
+    - mobile/node_modules
+    - server/node_modules
+install:
+  - cd server
+  - npm install
+script:
+  - npm run test
