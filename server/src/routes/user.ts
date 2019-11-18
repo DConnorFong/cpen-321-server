@@ -46,11 +46,11 @@ router.post('/:id/courses', async (req, res) => {
  * POST /user/login
  */
 router.post('/login', async (req, res) => {
-    const firstName = req.body.firstName;
-    const lastName = req.body.lastName;
+    const username = req.body.username;
+    const password = req.body.password;
 
     try {
-        const user = await User.findOne({ firstName, lastName });
+        const user = await User.attemptLogin(username, password);
 
         if (!user) {
             return res.status(400).send({
@@ -60,7 +60,7 @@ router.post('/login', async (req, res) => {
 
         res.send({ _id: user._id });
     } catch (error) {
-        res.status(500).send(error);
+        res.status(400).send(error);
     }
 });
 
@@ -142,7 +142,17 @@ router.patch('/:id', async (req, res) => {
     // collect all of the requested key updates and validate them against allowed changes
     const updates = Object.keys(req.body);
 
-    const allowedUpdates = ['firstName', 'lastName', 'aliasName', 'courses', 'groups', 'schedule', 'token'];
+    const allowedUpdates = [
+        'firstName',
+        'lastName',
+        'aliasName',
+        'courses',
+        'groups',
+        'schedule',
+        'token',
+        'username',
+        'password',
+    ];
 
     const isValidOperation = updates.every(update => {
         return allowedUpdates.includes(update);

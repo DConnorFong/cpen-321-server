@@ -25,6 +25,8 @@ test('getRegisteredCourses for User should update User and Course DBs correctly'
     const CpenOG = new User({
         firstName: 'CPEN',
         lastName: 'OG',
+        username: 'CPENOG',
+        password: '123ABC',
         courses: ['ELEC221', 'CPEN321', 'CPEN311', 'CPEN331'],
         groups: [],
         schedule: [

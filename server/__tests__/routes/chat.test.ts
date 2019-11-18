@@ -31,6 +31,8 @@ const testUser = {
     _id: groupMember1,
     firstName: 'Chat',
     lastName: 'Test',
+    username: 'TestUser',
+    password: 'TestPassword101',
     courses: [],
     groups: [testGroupId],
 };

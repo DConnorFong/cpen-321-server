@@ -12,6 +12,8 @@ const testUser = {
     _id: testUserId,
     firstName: 'Test',
     lastName: 'User',
+    username: 'TestUser',
+    password: 'TestPassword101',
 };
 
 beforeAll(async () => {
@@ -41,24 +43,22 @@ test('Can not retrieve a invalid user', async () => {
         .expect(404);
 });
 
-// TODO: replace with valid credential chain when implemented
 test('Can login with valid credentials', async () => {
     await request(service)
         .post('/user/login')
         .send({
-            firstName: 'Test',
-            lastName: 'User',
+            username: 'TestUser',
+            password: 'TestPassword101',
         })
         .expect(200);
 });
 
-// TODO: replace with valid credential chain when implemented
 test('Can not login with invalid credentials', async () => {
     await request(service)
         .post('/user/login')
         .send({
-            firstName: 'INVALID',
-            lastName: 'CREDENTIALS',
+            username: 'INVALID',
+            password: 'CREDENTIALS',
         })
         .expect(400);
 });
@@ -70,6 +70,8 @@ test('Can create a new user', async () => {
         _id: newUserId,
         firstName: 'New',
         lastName: 'User',
+        username: 'NewUser',
+        password: 'NewPassword101',
     };
 
     // create a new user
@@ -102,4 +104,11 @@ test('Can not update an existing user with invalid fields', async () => {
             _id: invalidUserId,
         })
         .expect(400);
+});
+
+// plain text password security
+test('Stored password should not be the same as plain text password', async () => {
+    const user = await User.findOne({ username: testUser.username });
+
+    expect(testUser.password).not.toEqual(user.password);
 });

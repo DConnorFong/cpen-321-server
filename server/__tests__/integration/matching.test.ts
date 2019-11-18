@@ -20,42 +20,44 @@ afterAll(async () => {
 });
 
 test('Initialize Group and User DBs', async () => {
+    await User.deleteMany();
+    await Group.deleteMany();
 
-	await User.deleteMany();
-	await Group.deleteMany();
+    const awfulMatchGroup = new Group({
+        members: ['dummyUserID1', 'dummyUserID2'],
+        courses: ['BLAH200', 'BLAH201', 'BLAH202'],
+        meeting_times: [
+            '10000000000000000000000000000',
+            '10000000000000000000000000000',
+            '10000000000000000000000000000',
+            '10000000000000000000000000000',
+            '10000000000000000000000000000',
+            '10000000000000000000000000000',
+            '10000000000000000000000000000',
+        ],
+        names: ['dummyUser1', 'dummyUser2'],
+    });
 
-	const awfulMatchGroup = new Group ({
-		members: ['dummyUserID1', 'dummyUserID2'],
-		courses: ['BLAH200', 'BLAH201', 'BLAH202'],
-		meeting_times: [	"10000000000000000000000000000", 
-		        			"10000000000000000000000000000", 
-		        			"10000000000000000000000000000", 
-		        			"10000000000000000000000000000", 
-		        			"10000000000000000000000000000", 
-		        			"10000000000000000000000000000", 
-		        			"10000000000000000000000000000"
-		        		],
-		names: ['dummyUser1', 'dummyUser2'],
-	});
-
-	await awfulMatchGroup.save();
-})
+    await awfulMatchGroup.save();
+});
 
 test('A user with no matches should have their own group created', async () => {
-	
-	const CpenOG = new User({
+    const CpenOG = new User({
         firstName: 'CPEN',
         lastName: 'OG',
-        courses: ["ELEC221", "CPEN321", "CPEN311", "CPEN331"],
+        username: 'CPENOG',
+        password: '123ABC',
+        courses: ['ELEC221', 'CPEN321', 'CPEN311', 'CPEN331'],
         groups: [],
-        schedule: [	"11111111111111111111111111111", 
-        			"11111111111110000011111111111", 
-        			"11111111110001111111111111111", 
-        			"11111111111110011111111111111", 
-        			"11111111110001111111111111111", 
-        			"11111110000110011111111111111", 
-        			"11111111111111111111111111111"
-        		],
+        schedule: [
+            '11111111111111111111111111111',
+            '11111111111110000011111111111',
+            '11111111110001111111111111111',
+            '11111111111110011111111111111',
+            '11111111110001111111111111111',
+            '11111110000110011111111111111',
+            '11111111111111111111111111111',
+        ],
     });
 
     await CpenOG.save();
@@ -76,53 +78,55 @@ test('A user with no matches should have their own group created', async () => {
     expect(body.members).toEqual([cpenOgId]);
 
     // Check group courses
-    body.courses.forEach( course => {
-    	expect(CpenOG.courses.includes(course.toString())).toBe(true);
-    })
+    body.courses.forEach(course => {
+        expect(CpenOG.courses.includes(course.toString())).toBe(true);
+    });
     expect(body.courses.length).toEqual(CpenOG.courses.length);
 
     // Check group meeting times
-    body.meeting_times.forEach( day => {
-    	expect(CpenOG.schedule.includes(day.toString())).toBe(true);
-    })
+    body.meeting_times.forEach(day => {
+        expect(CpenOG.schedule.includes(day.toString())).toBe(true);
+    });
     expect(body.meeting_times.length).toEqual(CpenOG.schedule.length);
 
     // Check group names
     expect(body.names).toEqual([`${CpenOG.firstName} ${CpenOG.lastName}`]);
-
 });
 
 test('A perfect match will join the correct group', async () => {
+    const decentMatchGroup = new Group({
+        members: ['dummyUserID1', 'dummyUserID2'],
+        courses: ['ELEC221', 'CPEN331', 'NOPE111', 'NOPE222'],
+        meeting_times: [
+            '10000000000000000000000000000',
+            '10000000000000000000000000000',
+            '10000000000000000000000000000',
+            '10000000000000000000000000000',
+            '11111111110001111111111111111',
+            '11111110000110011111111111111',
+            '11111111111111111111111111111',
+        ],
+        names: ['dummyUser1', 'dummyUser2'],
+    });
 
-	const decentMatchGroup = new Group ({
-		members: ['dummyUserID1', 'dummyUserID2'],
-		courses: ['ELEC221', 'CPEN331', 'NOPE111', 'NOPE222'],
-		meeting_times: [	"10000000000000000000000000000", 
-		        			"10000000000000000000000000000", 
-		        			"10000000000000000000000000000", 
-		        			"10000000000000000000000000000", 
-		        			"11111111110001111111111111111", 
-		        			"11111110000110011111111111111", 
-		        			"11111111111111111111111111111"
-		        		],
-		names: ['dummyUser1', 'dummyUser2'],
-	});
+    await decentMatchGroup.save();
 
-	await decentMatchGroup.save();
-
-	const perfectMatchUser = new User({
+    const perfectMatchUser = new User({
         firstName: 'Perfect',
         lastName: 'Match',
-        courses: ["ELEC221", "CPEN321", "CPEN311", "CPEN331"],
+        username: 'PerfectMatch',
+        password: '123ABC',
+        courses: ['ELEC221', 'CPEN321', 'CPEN311', 'CPEN331'],
         groups: [],
-        schedule: [	"11111111111111111111111111111", 
-        			"11111111111110000011111111111", 
-        			"11111111110001111111111111111", 
-        			"11111111111110011111111111111", 
-        			"11111111110001111111111111111", 
-        			"11111110000110011111111111111", 
-        			"11111111111111111111111111111"
-        		],
+        schedule: [
+            '11111111111111111111111111111',
+            '11111111111110000011111111111',
+            '11111111110001111111111111111',
+            '11111111111110011111111111111',
+            '11111111110001111111111111111',
+            '11111110000110011111111111111',
+            '11111111111111111111111111111',
+        ],
     });
 
     await perfectMatchUser.save();
@@ -143,37 +147,38 @@ test('A perfect match will join the correct group', async () => {
     expect(body.members).toEqual([cpenOgId, perfectMatchId]);
 
     // Check group courses
-    body.courses.forEach( course => {
-    	expect(perfectMatchUser.courses.includes(course.toString())).toBe(true);
-    })
+    body.courses.forEach(course => {
+        expect(perfectMatchUser.courses.includes(course.toString())).toBe(true);
+    });
     expect(body.courses.length).toEqual(perfectMatchUser.courses.length);
 
     // Check group meeting times
-    body.meeting_times.forEach( day => {
-    	expect(perfectMatchUser.schedule.includes(day.toString())).toBe(true);
-    })
+    body.meeting_times.forEach(day => {
+        expect(perfectMatchUser.schedule.includes(day.toString())).toBe(true);
+    });
     expect(body.meeting_times.length).toEqual(perfectMatchUser.schedule.length);
 
     // Check group names
     expect(body.names).toEqual([`CPEN OG`, `${perfectMatchUser.firstName} ${perfectMatchUser.lastName}`]);
-
 });
 
 test('A good match will join the correct group', async () => {
-
-	const goodMatchUser = new User({
+    const goodMatchUser = new User({
         firstName: 'Good',
         lastName: 'Match',
-        courses: ["ELEC221", "CPEN321", "CPEN311", "DUST666"],
+        username: 'GoodMatch',
+        password: '123ABC',
+        courses: ['ELEC221', 'CPEN321', 'CPEN311', 'DUST666'],
         groups: [],
-        schedule: [	"10000000000000000000000000000", 
-        			"11111111111110000011111111111", 
-        			"11111111110001111111111111111", 
-        			"11100001111110011111000011111", 
-        			"11111111110001111111111111111", 
-        			"11111110000110011111111111111", 
-        			"10000000000000000000000000000"
-        		],
+        schedule: [
+            '10000000000000000000000000000',
+            '11111111111110000011111111111',
+            '11111111110001111111111111111',
+            '11100001111110011111000011111',
+            '11111111110001111111111111111',
+            '11111110000110011111111111111',
+            '10000000000000000000000000000',
+        ],
     });
 
     await goodMatchUser.save();
@@ -194,27 +199,25 @@ test('A good match will join the correct group', async () => {
     expect(body.members).toEqual([cpenOgId, perfectMatchId, goodMatchUserId]);
 
     // Check group courses
-    body.courses.forEach( course => {
-    	expect(goodMatchUser.courses.includes(course.toString())).toBe(true);
-    })
+    body.courses.forEach(course => {
+        expect(goodMatchUser.courses.includes(course.toString())).toBe(true);
+    });
     expect(body.courses.length).toEqual(3);
 
     // Check group meeting times
-    body.meeting_times.forEach( day => {
-    	expect(goodMatchUser.schedule.includes(day.toString())).toBe(true);
-    })
+    body.meeting_times.forEach(day => {
+        expect(goodMatchUser.schedule.includes(day.toString())).toBe(true);
+    });
     expect(body.meeting_times.length).toEqual(goodMatchUser.schedule.length);
 
     // Check group names
     expect(body.names).toEqual([`CPEN OG`, `Perfect Match`, `${goodMatchUser.firstName} ${goodMatchUser.lastName}`]);
-
 });
 
 test('A user will not join groups they are already in', async () => {
+    const goodMatchUser = await User.findOne({ _id: goodMatchUserId });
 
-	const goodMatchUser = await User.findOne({ _id: goodMatchUserId });
-
-	const response = await request(service)
+    const response = await request(service)
         .post(`/user/${goodMatchUserId}/match`)
         .send();
 
@@ -224,18 +227,17 @@ test('A user will not join groups they are already in', async () => {
     expect(body.members).toEqual([goodMatchUserId]);
 
     // Check group courses
-    body.courses.forEach( course => {
-    	expect(goodMatchUser.courses.includes(course.toString())).toBe(true);
-    })
+    body.courses.forEach(course => {
+        expect(goodMatchUser.courses.includes(course.toString())).toBe(true);
+    });
     expect(body.courses.length).toEqual(goodMatchUser.courses.length);
 
     // Check group meeting times
-    body.meeting_times.forEach( day => {
-    	expect(goodMatchUser.schedule.includes(day.toString())).toBe(true);
-    })
+    body.meeting_times.forEach(day => {
+        expect(goodMatchUser.schedule.includes(day.toString())).toBe(true);
+    });
     expect(body.meeting_times.length).toEqual(goodMatchUser.schedule.length);
 
     // Check group names
     expect(body.names).toEqual([`${goodMatchUser.firstName} ${goodMatchUser.lastName}`]);
-
 });
