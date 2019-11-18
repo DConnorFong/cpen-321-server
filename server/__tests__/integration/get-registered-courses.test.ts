@@ -1,6 +1,6 @@
 export {};
 
-import { getRegisteredCourses } from '../utils/get-registered-courses';
+import { getRegisteredCourses } from '../../src/utils/get-registered-courses';
 
 const dbHandler = require('../../__mocks__/db/mongoose');
 const request = require('supertest');
