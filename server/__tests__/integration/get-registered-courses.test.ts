@@ -1,5 +1,7 @@
 export {};
 
+import { getRegisteredCourses } from '../utils/get-registered-courses';
+
 const dbHandler = require('../../__mocks__/db/mongoose');
 const request = require('supertest');
 const service = require('../../src/service');
@@ -42,9 +44,7 @@ test('getRegisteredCourses for User should update User and Course DBs correctly'
 
     await CpenOG.save();
 
-    await request(service)
-        .post(`/user/${CpenOG._id}/courses`)
-        .send();
+    await getRegisteredCourses(CpenOG._id);
 
     const CpenOgAfter = await User.findOne({ _id: CpenOG._id });
     const _CPEN311 = await Course.findOne({ courseCode: 'CPEN311' });
