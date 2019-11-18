@@ -30,6 +30,12 @@ const groupSchema = new mongoose.Schema(
                 required: true,
             },
         ],
+        names: [
+            {
+                type: String,
+                required: true,
+            }
+        ],
     },
     {
         timestamps: true,
